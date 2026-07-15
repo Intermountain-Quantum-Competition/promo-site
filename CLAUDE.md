@@ -213,6 +213,32 @@ Two things that must stay true:
 - **Source Serif keeps `font-weight: 200 900`**, matching the `wght` range in its `fvar`
   table. Without the range the axis pins to 400 and every other weight is silently
   ignored. Re-check the range if the font is ever re-subset.
+- **Avenir's master is the Monotype `Avenir Light.ttf` — don't swap in another build.**
+  In July 2026 an `Avenir (CXL Headings).ttc` was offered as "the official licensed font".
+  It was the Avenir that ships with macOS (Linotype 2007), and it was deleted rather than
+  committed. It is not in the history; nothing is lost, since a copy sits on every Mac at
+  `/System/Library/Fonts/Avenir.ttc`. This entry exists because the offer will probably
+  recur — Avenir is everywhere, and most copies of it are somebody's system font.
+
+    Why that one lost on the merits, briefly: it subsets to 19.5 KB against the current
+    12.7 KB (TrueType outlines plus hinting tables, versus CFF), and it drops 15
+    codepoints the Monotype build has — the typographic spaces, ZWNJ and ZWJ, the bidi
+    controls, and U+2011 non-breaking hyphen.
+
+    **The trap, which generalizes to any Avenir build you are offered:** it was
+    **metrically identical horizontally** — every advance width matched to the unit, same
+    708 cap height and 462 x-height — so a swap looks clean in a side-by-side of a word or
+    a line, and you would conclude it's the same font. The vertical metrics are where they
+    differ. Ascender/descender went 1084/−458 to 1000/−366 (hhea; typo descender −325),
+    shrinking the default line box from 1.542em to 1.366em and moving the baseline within
+    it. Since `--font-body` is set on `body` in `elements.css` and nothing sets an explicit
+    `line-height` for body text, that shifts vertical rhythm site-wide. So: compare
+    `hhea`/`OS/2` ascender and descender, not a screenshot.
+
+    Avenir is body text only; headings are Source Serif. If Avenir headings are ever
+    wanted, the Monotype build is Light 300 only — source a Monotype _web_ build of the
+    weight you need rather than pulling one out of a system `.ttc`, because mixing foundry
+    builds mixes vertical metrics, per above.
 
 ## Infrastructure (AWS) — direction, not yet built
 
@@ -239,10 +265,24 @@ everything below:
 Things deliberately not settled. If you resolve one, update this section.
 
 - IaC tool + where its state lives.
-- **Avenir's webfont licence.** `Avenir Light.ttf` appears to be a desktop-licensed file,
-  and desktop licences typically do not cover `@font-face` embedding. Confirm what BYU's
-  licence actually permits before the site goes public — this is the one item here that no
-  build will ever warn you about. Source Serif 4 is OFL and fine.
+- **Avenir's webfont licence — reported as covered, not verified in writing.** As of
+  2026-07-15 the font's supplier says a licence exists, and we are proceeding on that
+  basis. Nobody working on this repo has seen the agreement, so the terms are still
+  unknown. To close this out, record here: **who confirmed it**, **which licence it is**
+  (a Monotype _web_ licence is the one that permits `@font-face`; a desktop licence is
+  not), and **what it covers** — permitted domains and any pageview cap, since Monotype
+  web licences are metered. Then move this out of Open decisions. It stays here until
+  then, because it is the one item in this file that no build will ever warn you about.
+  Source Serif 4 is OFL and fine.
+
+    What the binary itself says, so it need not be re-derived: the in-use
+    `Avenir Light.ttf` is a Monotype 2018 build, `fsType: 0` (installable embedding), and
+    its embedded notice defers to "the actual license agreement you have entered into with
+    Monotype" — i.e. the file grants nothing by itself. Note `fsType` bits are the
+    foundry's technical hint, not the licence; do not read `fsType: 0` as permission.
+    A different Avenir was offered as the licensed one and turned out to be the macOS
+    system font — see [Fonts](#fonts-are-latin-subset-woff2-built-from-the-ttf-masters).
+
 - `theme.css` overrides Tailwind's `hover` variant to a bare `&:hover`, dropping the
   default `@media (hover: hover)` guard that keeps hover styles from sticking after a tap
   on touch devices. Nobody has confirmed whether that's deliberate. Keep it and say why,
