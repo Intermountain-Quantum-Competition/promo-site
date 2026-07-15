@@ -1,7 +1,8 @@
 # IQC Promo Site
 
 The promotional site for the Institute for Quantum Computing. It's a Vue 3 single-page
-app built with Vite, and it will be deployed on AWS.
+app built with Vite, deployed on GitHub Pages at
+[intermountainquantum.org](https://intermountainquantum.org).
 
 If you're new to the stack, the [Stack tour](#stack-tour) below explains what each piece
 does and links to its docs. You don't need to know all of it to be useful — start with
@@ -59,7 +60,7 @@ promo-site/
 ├── .prettierignore
 ├── .gitignore         ← root-level ignores; src/iqc-site has its own for the app
 ├── .nvmrc
-├── .github/workflows/ ← CI
+├── .github/workflows/ ← CI checks + the Pages deploy
 ├── .vscode/           ← shared editor setup — open the repo root to get it
 ├── infra/             ← AWS Infrastructure as Code (not built yet)
 └── src/
@@ -262,6 +263,9 @@ buys you a few seconds, since CI runs the same checks anyway.
 `typecheck`, the tests, and a production build on every pull request. The hooks are a fast
 local echo of this; CI is the thing that actually decides.
 
+The other workflow, [deploy.yml](.github/workflows/deploy.yml), publishes to GitHub Pages
+when `live` moves — see [Deployment](#deployment).
+
 ### Tests
 
 Vitest with [@vue/test-utils](https://test-utils.vuejs.org/). Tests live next to the code
@@ -285,16 +289,46 @@ the old Vue 2 extension, and having both enabled produces confusing errors.
 
 ## Deployment
 
-Not built yet. The site will run on a full AWS stack, defined as Infrastructure as Code,
-because it may be handed to a different AWS account later. Two rules that already apply:
+The site is a static build on **GitHub Pages**, served at
+[intermountainquantum.org](https://intermountainquantum.org).
 
-- **No console clicks.** If a resource isn't in a template, it doesn't exist. Anything
-  created by hand is invisible to the next account and becomes the thing that breaks the
-  migration.
-- **Never hardcode account IDs, ARNs, bucket names, or regions.**
+**`main` is trunk. `live` is what's published.** To ship:
 
-The IaC tool isn't chosen yet. See [CLAUDE.md](CLAUDE.md) for the full reasoning and the
-remaining open decisions.
+```sh
+# open a PR from main into live, get CI green, merge
+gh pr create --base live --head main --title "Deploy"
+```
+
+Merging into `live` triggers
+[.github/workflows/deploy.yml](.github/workflows/deploy.yml), which builds and publishes.
+You can also re-publish the current `live` without a commit: **Actions → Deploy → Run
+workflow**.
+
+That PR is the only thing standing between a change and the live domain — `live` isn't
+branch-protected yet, so a direct push to it publishes straight away. Treat pushing to
+`live` as pressing the button.
+
+Three things worth knowing before you touch the deploy setup:
+
+- **Don't add a `CNAME` file.** Every tutorial says to, and it does nothing here — GitHub
+  ignores `CNAME` when Pages publishes from an Actions workflow rather than a branch. The
+  domain lives in **Settings → Pages**, not in the repo.
+- **`npm run preview` is not a preview of Pages.** It has a fallback for client-side routes
+  that a static file server doesn't. The workflow copies `index.html` to `404.html` to
+  cover this — if you want to test deep links the way Pages sees them, build and then serve
+  `dist/` with something dumb like `npx serve dist`.
+- **`base: '/'` in `vite.config.ts` assumes the custom domain.** Serving from the plain
+  github.io URL would need it changed, and getting it wrong builds fine and 404s at
+  runtime.
+
+### Why not AWS?
+
+It's still the plan, later. The domain is registered outside AWS, so shipping there means
+sorting out DNS and certificates first — and Pages hosts a static SPA off a domain
+registered anywhere. Nothing about this setup blocks the move: the build output is a plain
+`dist/` folder that any static host will serve. AWS gets revisited when we need something
+static hosting can't do (a backend, most likely). [CLAUDE.md](CLAUDE.md) has the full
+reasoning and the open decisions.
 
 ## Troubleshooting
 

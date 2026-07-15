@@ -6,6 +6,15 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://vite.dev/config/
 export default defineConfig({
+	// Vite's default, set explicitly because it's a deploy-target decision, not a default
+	// to leave alone. '/' is correct only because the site is served from the root of a
+	// custom domain (intermountainquantum.org). Served from the project Pages URL instead
+	// -- intermountain-quantum-competition.github.io/promo-site/ -- every asset URL and
+	// every router path would be wrong by a '/promo-site' prefix, and the failure is a
+	// blank page with 404s, not a build error. The router reads this via
+	// import.meta.env.BASE_URL, so changing it here is enough; don't also hardcode it there.
+	base: '/',
+
 	plugins: [vue(), tailwindcss()],
 	test: {
 		// Components touch the DOM, so tests need one. Node's default environment has no

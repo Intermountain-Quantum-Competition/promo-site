@@ -1,0 +1,80 @@
+name: Deploy
+
+# The `live` branch is the deploy trigger: whatever is on it is what's published at
+# intermountainquantum.org. Promote by opening a PR from `main` into `live` -- that PR is
+# what runs CI, and it's the only gate, since `live` has no branch protection yet.
+# workflow_dispatch re-publishes the current `live` without needing a commit.
+on:
+    push:
+        branches: [live]
+    workflow_dispatch:
+
+# Pages needs to read the repo and mint an OIDC token to claim the deployment. Nothing
+# else, and this is already more than the default read-only token grants.
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+# Never let two deploys race to publish. Unlike CI, in-flight runs are NOT cancelled: a
+# half-finished deploy that loses its upload leaves the live site on the previous build
+# with no obvious sign why.
+concurrency:
+    group: pages
+    cancel-in-progress: false
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        env:
+            # The `prepare` script installs git hooks, which a CI checkout has no use for.
+            LEFTHOOK: '0'
+
+        defaults:
+            run:
+                # The npm project is not at the repo root. Applies to `run:` steps only --
+                # paths passed to `uses:` actions below stay repo-root-relative.
+                working-directory: src/iqc-site
+
+        steps:
+            - uses: actions/checkout@v5
+
+            - uses: actions/setup-node@v5
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+                  cache-dependency-path: src/iqc-site/package-lock.json
+
+            - run: npm ci
+
+            # Typechecks as part of the build. The rest of the checks (format, lint, test)
+            # ran on the PR into `live`; this job deliberately doesn't repeat them, so a
+            # deploy stays fast and CI stays the one place they're defined.
+            - run: npm run build
+
+            # GitHub Pages is a static file server with no SPA rewrite: a request for
+            # /research looks for /research/index.html, doesn't find it, and serves
+            # 404.html. Making 404.html a copy of the app shell means vue-router boots and
+            # handles the path -- that's what makes deep links and refreshes work at all.
+            #
+            # This only exists here, so `npm run build` locally does NOT produce it. Don't
+            # take `npm run preview` as proof it works: preview has its own history
+            # fallback and serves deep links fine whether or not this step exists.
+            - run: cp dist/index.html dist/404.html
+
+            - uses: actions/upload-pages-artifact@v5
+              with:
+                  path: src/iqc-site/dist
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
+
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+
+        steps:
+            - id: deployment
+              uses: actions/deploy-pages@v5

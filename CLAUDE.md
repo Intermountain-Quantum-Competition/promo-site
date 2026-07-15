@@ -11,7 +11,15 @@
 
 ## What this is
 
-The IQC promotional site. Vue 3 + Vite single-page app, to be deployed on AWS.
+The IQC promotional site. Vue 3 + Vite single-page app, deployed as a static site on
+GitHub Pages at **intermountainquantum.org**, with a move to AWS planned later.
+
+Pages is the deliberate starting point, not a stopgap someone forgot to replace: the
+domain is registered outside AWS, so Route 53 and ACM would have to be wired up before
+anything could ship. Pages serves a static SPA off a domain registered anywhere. AWS is
+still the destination once the site needs more than static hosting — see
+[Infrastructure](#infrastructure-aws--direction-not-yet-built). Nothing in the Pages setup
+forecloses it; the build output is a plain `dist/` directory that any static host serves.
 
 ## Repository layout
 
@@ -27,7 +35,7 @@ promo-site/
 ├── .prettierignore
 ├── .gitignore         ← root-level ignores (src/iqc-site/ has its own for the app)
 ├── .nvmrc
-├── .github/workflows/ ← CI
+├── .github/workflows/ ← ci.yml (checks) + deploy.yml (Pages)
 ├── .vscode/           ← shared editor config + snippets; VS Code opens at the repo root
 ├── infra/             ← AWS IaC (placeholder, not built)
 └── src/
@@ -80,8 +88,8 @@ root, but only via npx's machine-local cache; it fails on a fresh clone.
 ## CI
 
 `.github/workflows/ci.yml` runs `format:check`, `lint`, `typecheck`, `test`, and `build`
-on every PR and on pushes to `main`. It uses `npm ci` and takes its Node version from
-`.nvmrc`.
+on every PR and on pushes to `main` and `live`. It uses `npm ci` and takes its Node
+version from `.nvmrc`.
 
 The hooks are a convenience; CI is the enforcement, since hooks are per-machine and
 `--no-verify` bypasses them. If you add a check, add it in both places.
@@ -240,13 +248,86 @@ Two things that must stay true:
     weight you need rather than pulling one out of a system `.ttc`, because mixing foundry
     builds mixes vertical metrics, per above.
 
+## Deployment (GitHub Pages)
+
+`.github/workflows/deploy.yml` builds and publishes to GitHub Pages. It triggers on pushes
+to **`live`** and on `workflow_dispatch` (an Actions-tab button, for republishing without a
+commit).
+
+**`live` is the deploy branch; `main` is trunk.** Promote by opening a PR from `main` into
+`live`. That PR is the gate — it runs CI, and it is the _only_ gate, because `live` has no
+branch protection (same gap as `main`; see [Open decisions](#open-decisions)). A direct
+push to `live` publishes immediately.
+
+The deploy job runs only `npm run build` (which typechecks), not the full check suite, on
+the assumption that the PR into `live` already ran it. If you add a check to CI, think
+about whether a deploy should be blocked on it — and note that today nothing _blocks_ a
+deploy at all.
+
+Concurrency is `group: pages` with **`cancel-in-progress: false`**, unlike CI, which
+cancels. Cancelling a deploy mid-publish leaves the live site on the previous build with
+nothing explaining why, so deploys queue instead.
+
+### The custom domain is a repo setting, and no file in this repo controls it
+
+`intermountainquantum.org` is configured at **Settings → Pages → Custom domain**, plus DNS
+records at the registrar. Neither lives in version control.
+
+**Do not add a `CNAME` file to `public/`.** It is the answer everyone finds first, and it
+is wrong here: a `CNAME` file only configures the domain when Pages publishes _from a
+branch_. When publishing from a custom Actions workflow, [GitHub ignores it
+entirely](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
+— it is not created, not read, not required. Committing one produces a file that looks
+authoritative, does nothing, and will be trusted by whoever reads it next.
+
+### `base` is `/` only because of the custom domain
+
+`vite.config.ts` sets `base: '/'`, correct for serving from the root of a domain. If the
+site is ever served from the project Pages URL instead
+(`intermountain-quantum-competition.github.io/promo-site/`), `base` must become
+`'/promo-site/'`. The router derives its base from `import.meta.env.BASE_URL`, so
+`vite.config.ts` is the single place to change — don't also hardcode it in
+`router/index.ts`.
+
+Getting this wrong builds cleanly and fails at runtime: every asset 404s and the page is
+blank.
+
+### `404.html` is what makes deep links work
+
+Pages is a plain static file server with no SPA rewrite. A request for `/research` looks
+for `/research/index.html`, doesn't find it, and serves `404.html`. The deploy workflow
+copies `dist/index.html` to `dist/404.html` so that fallback _is_ the app shell —
+vue-router then boots and resolves the path normally. Without it, every deep link and
+every refresh on a non-root route is a bare 404.
+
+**That copy happens only in the workflow, so `npm run build` does not produce it, and
+`npm run preview` will not reveal a regression.** Vite's preview server has its own history
+fallback and serves deep links whether or not the step exists. The only honest local check
+is a dumb static server over `dist/` (`npx serve dist`), which is what Pages actually
+behaves like.
+
+### Manual bootstrap steps (not in IaC, not in this repo)
+
+The list that a fresh clone can't reproduce, and that a future migration has to redo:
+
+1. **Settings → Pages → Source: GitHub Actions.** Without this the workflow runs green and
+   publishes nothing.
+2. **Settings → Pages → Custom domain: `intermountainquantum.org`**, then enable _Enforce
+   HTTPS_ once the certificate is issued.
+3. **DNS at the registrar** — apex `A` records to `185.199.108-111.153` (and/or `AAAA` to
+   `2606:50c0:800{0,1,2,3}::153`), or an `ALIAS`/`ANAME` to
+   `intermountain-quantum-competition.github.io`.
+4. **The `live` branch must exist** and be created from `main`.
+
 ## Infrastructure (AWS) — direction, not yet built
 
-None of this exists yet. It is recorded here so early decisions don't foreclose it.
+None of this exists yet, and Pages is serving the site in the meantime — see
+[Deployment](#deployment-github-pages). It is recorded here so early decisions don't
+foreclose it.
 
-**The site will run on a full AWS stack, and it may be handed to a different AWS account
-later.** Account portability is a hard requirement, not a nice-to-have. That drives
-everything below:
+**The site will eventually run on a full AWS stack, and it may be handed to a different
+AWS account later.** Account portability is a hard requirement, not a nice-to-have. That
+drives everything below:
 
 - **Everything is Infrastructure as Code.** If it is not in a template, it does not
   exist. Do not create resources by hand in the console — a console click is invisible to
@@ -289,10 +370,17 @@ Things deliberately not settled. If you resolve one, update this section.
   or drop the override.
 - E2E tests. Vitest covers units; Playwright is the natural fit once there are flows worth
   testing. Nothing is installed.
-- Branch protection on `main`. CI exists but nothing yet _requires_ it to pass, so it is
-  advisory until the checks are marked required in the repo settings. That's a GitHub
-  setting, not a file, so it can't live in this repo — which is exactly why it's easy to
-  forget.
+- Branch protection on `main` **and `live`**. CI exists but nothing yet _requires_ it to
+  pass, so it is advisory until the checks are marked required in the repo settings.
+  That's a GitHub setting, not a file, so it can't live in this repo — which is exactly
+  why it's easy to forget. `live` raises the stakes: unprotected, it means an accidental
+  `git push origin live` publishes to the real domain with no check in between.
+- **When AWS takes over, and what actually forces it.** Pages is a real answer for a
+  static SPA, not a countdown — so name the trigger rather than migrating on vibes. The
+  things Pages genuinely can't do: server-side anything (the `src/backend/` placeholder is
+  the obvious one), non-public content, redirects/headers beyond static files, and
+  server-side analytics. Whichever of those lands first is the trigger. Write down which
+  one it was.
 - Whether `src/iqc-site/` gets hoisted to the repo root. The nesting keeps leaking: it
   forced `lefthook.yml` to the root with per-job `root:` directives, forced the Prettier
   config to the root and the `format` scripts to point at `../..`, forced
