@@ -1,0 +1,33 @@
+# Repo-root ignores. src/iqc-site/.gitignore covers the npm project; its rules apply
+# only to that subtree, so anything outside it needs to be listed here.
+
+# The npm project lives in src/iqc-site/, but running `npm install` from the repo root
+# is an easy mistake (see the README's troubleshooting section) and leaves an unignored
+# node_modules behind.
+node_modules
+*.log
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+.idea
+
+# The shared VS Code setup is tracked; personal workspace state is not.
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/shared.code-snippets
+
+# Per-developer Claude Code state. .claude/settings.json (shared) is intentionally
+# still tracked.
+.claude/settings.local.json
+
+# Infrastructure as Code build + state artifacts. infra/ is a placeholder today, but
+# these must never be committed once it isn't: Terraform state routinely contains
+# secrets in plaintext, and no state file belongs in git regardless.
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+cdk.out/
+.pulumi/

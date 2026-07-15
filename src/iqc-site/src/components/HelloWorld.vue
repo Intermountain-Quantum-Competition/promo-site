@@ -84,10 +84,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import viteLogo from '../assets/vite.svg'
-import heroImg from '../assets/hero.png'
-import vueLogo from '../assets/vue.svg'
+import { defineComponent } from 'vue';
+import viteLogo from '../assets/vite.svg';
+import heroImg from '../assets/hero.png';
+import vueLogo from '../assets/vue.svg';
 
 export default defineComponent({
 	name: 'HelloWorld',
@@ -98,7 +98,7 @@ export default defineComponent({
 			heroImg,
 			vueLogo,
 			count: 0,
-		}
+		};
 	},
-})
+});
 </script>

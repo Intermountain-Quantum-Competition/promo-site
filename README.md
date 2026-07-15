@@ -29,16 +29,22 @@ this README runs from there. If you get `ENOENT: package.json`, that's why.
 
 All from `src/iqc-site/`:
 
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Dev server with hot reload |
-| `npm run build` | Typecheck, then production build to `dist/` |
-| `npm run preview` | Serve the built `dist/` locally — check a build before shipping |
-| `npm run typecheck` | Types only, no output files |
-| `npm run lint` | Find code problems |
-| `npm run lint:fix` | Fix the ones that can be fixed automatically |
-| `npm run format` | Reformat everything |
-| `npm run format:check` | Fail if anything is unformatted |
+| Command                | What it does                                                    |
+| ---------------------- | --------------------------------------------------------------- |
+| `npm run dev`          | Dev server with hot reload                                      |
+| `npm run build`        | Typecheck, then production build to `dist/`                     |
+| `npm run preview`      | Serve the built `dist/` locally — check a build before shipping |
+| `npm run typecheck`    | Types only, no output files                                     |
+| `npm run test`         | Run the tests once                                              |
+| `npm run test:watch`   | Re-run tests as you edit                                        |
+| `npm run lint`         | Find code problems                                              |
+| `npm run lint:fix`     | Fix the ones that can be fixed automatically                    |
+| `npm run format`       | Reformat everything                                             |
+| `npm run format:check` | Fail if anything is unformatted                                 |
+
+`format` and `format:check` cover the **whole repo**, including the files above
+`src/iqc-site/` like this README — which is why they're the only scripts pointed outside
+the npm project. Everything else is scoped to the app.
 
 ## Repository layout
 
@@ -49,18 +55,28 @@ promo-site/
 ├── lefthook.yml       ← git hooks (must be at repo root)
 ├── .editorconfig      ← indentation: tabs, 4 wide
 ├── .gitattributes     ← line endings: LF everywhere, all platforms
+├── .prettierrc.json   ← formatting rules — at the root, so they cover the whole repo
+├── .prettierignore
+├── .gitignore         ← root-level ignores; src/iqc-site has its own for the app
 ├── .nvmrc
-└── src/iqc-site/      ← the app — run npm commands here
-    ├── index.html     ← the page shell; Vite's entry point
-    ├── public/        ← served as-is at the site root, never bundled
-    └── src/
-        ├── main.ts        ← app bootstrap: creates the app, installs plugins
-        ├── App.vue        ← root component; just hosts <RouterView />
-        ├── style.css      ← global styles + the CSS custom properties
-        ├── router/        ← route table
-        ├── views/         ← one component per route
-        ├── components/    ← reusable pieces
-        └── assets/        ← images/styles imported by code (hashed at build)
+├── .github/workflows/ ← CI
+├── .vscode/           ← shared editor setup — open the repo root to get it
+├── infra/             ← AWS Infrastructure as Code (not built yet)
+└── src/
+    ├── backend/       ← (not built yet)
+    └── iqc-site/      ← the frontend app — run npm commands here
+        ├── index.html     ← the page shell; Vite's entry point
+        ├── public/        ← served as-is at the site root, never bundled
+        └── src/
+            ├── main.ts        ← app bootstrap: creates the app, installs plugins
+            ├── App.vue        ← root component; just hosts <RouterView />
+            ├── theme.css      ← design tokens: colors, fonts
+            ├── elements.css   ← bare-element font presets (body, h1–h6)
+            ├── style.css      ← leftover Vite scaffold; being deleted, don't build on it
+            ├── router/        ← route table
+            ├── views/         ← one component per route
+            ├── components/    ← reusable pieces
+            └── assets/        ← images/fonts imported by code (hashed at build)
 ```
 
 `assets/` vs `public/`: import from `assets/` when you want the build to optimize and
@@ -69,8 +85,8 @@ predictable URL — `favicon.svg`, `robots.txt`.
 
 ## Stack tour
 
-Each of these links to the official docs. The one-liners are what the library does *for
-this project*, not a full summary.
+Each of these links to the official docs. The one-liners are what the library does _for
+this project_, not a full summary.
 
 ### [Vue 3](https://vuejs.org/guide/introduction.html) — the UI framework
 
@@ -80,7 +96,7 @@ file.
 **We use the Options API, not the Composition API.** Vue supports both, and this is the
 one where a component is an object of options — `data`, `computed`, `methods`. The Vue
 docs default to showing Composition API examples; there's an **API Preference** toggle at
-the top left of the sidebar. Set it to *Options* and the examples will match our code.
+the top left of the sidebar. Set it to _Options_ and the examples will match our code.
 
 ```vue
 <template>
@@ -88,12 +104,12 @@ the top left of the sidebar. Set it to *Options* and the examples will match our
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
 	name: 'CounterButton',
 	data() {
-		return { count: 0 } // reactive state
+		return { count: 0 }; // reactive state
 	},
 	computed: {
 		doubled(): number {
@@ -105,16 +121,17 @@ export default defineComponent({
 			this.count++;
 		},
 	},
-})
+});
 </script>
 ```
 
 Four things that bite newcomers:
 
 - **Always wrap in `defineComponent()`.** It's what gives TypeScript the type of `this`.
-  Export a bare object and `this` silently becomes `any` inside every method. There is a Snippet
-  available that will scaffold this for you. Just start typing "vue component" in a new file
-  and it should auto-complete and generate a boilerplate for you with all of this.
+  Export a bare object and `this` silently becomes `any` inside every method. You don't
+  have to type the boilerplate: in a new `.vue` file, type `vue` and take the snippet
+  ([.vscode/shared.code-snippets](.vscode/shared.code-snippets)) — it scaffolds all of
+  this. You need the repo root open in VS Code for it to be offered.
 - **Annotate computed return types** (`doubled(): number`). TypeScript can't always infer
   them through `this`, and it fails in confusing ways when it can't.
 - **Imports aren't visible to the template.** Import an image and use it in the template
@@ -163,9 +180,32 @@ Note for anyone who's used Tailwind before: **v4 has no `tailwind.config.js`.** 
 configured through the Vite plugin and CSS itself. Config snippets you find online are
 probably v3 and won't apply.
 
-Prefer the existing custom properties in
-[src/style.css](src/iqc-site/src/style.css) — `--accent`, `--text`, `--bg` — over new
-hardcoded colors. They're already wired for dark mode.
+Prefer the design tokens in [src/theme.css](src/iqc-site/src/theme.css) — the `--color-*`
+palette and the `--font-header` / `--font-subheader` / `--font-body` tokens — over new
+hardcoded values.
+
+There are three CSS files, and it matters which one you reach for:
+
+| File               | What it's for                                                                                                                                                        |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/theme.css`    | The design tokens — colors and fonts. **This is the one you want.**                                                                                                  |
+| `src/elements.css` | Presets for bare `body` / `h1`–`h6`, so you don't repeat `class="font-header"` on every heading. Fonts only, deliberately not a design system.                       |
+| `src/style.css`    | **Leftover Vite scaffold, on its way out. Don't build on it or add to it**, and don't use its `--accent` / `--text` / `--bg` tokens — they're being deleted with it. |
+
+Two things that will waste an afternoon if you don't know them:
+
+- **If a Tailwind class or a heading style appears to do nothing, check `style.css`
+  first.** Its rules are unlayered, and an unlayered rule beats every rule in a
+  `@layer` no matter how specific the layered one is. It has silently overridden
+  `.font-header` and heading styles more than once, and it always presents as "Tailwind is
+  broken" rather than as a cascade problem.
+- **The font tokens own their weight**, because it's set via the variable font's `wght`
+  axis rather than `font-weight`. So `class="font-header font-normal"` still renders bold.
+  That's intended — the token is the decision — but it means the font tokens don't compose
+  with Tailwind's weight utilities.
+
+[CLAUDE.md](CLAUDE.md) has the full reasoning, including how the fonts are subset and
+built.
 
 ### [Pinia](https://pinia.vuejs.org/introduction.html) — shared state
 
@@ -213,14 +253,32 @@ Most of these are enforced by tooling, so you mainly need to know they exist.
 - **pre-push** — typechecks. Catches what your editor might not have.
 
 If a hook seems broken, run `npx lefthook run pre-commit` from the repo root to see the
-real output. Don't reach for `--no-verify` without saying so in the PR.
+real output. Don't reach for `--no-verify` without saying so in the PR — and note it only
+buys you a few seconds, since CI runs the same checks anyway.
+
+### CI
+
+[.github/workflows/ci.yml](.github/workflows/ci.yml) runs `format:check`, `lint`,
+`typecheck`, the tests, and a production build on every pull request. The hooks are a fast
+local echo of this; CI is the thing that actually decides.
+
+### Tests
+
+Vitest with [@vue/test-utils](https://test-utils.vuejs.org/). Tests live next to the code
+they cover, named `*.test.ts`, and run in a jsdom environment so components can mount.
+There's one example test in
+[HelloWorld.test.ts](src/iqc-site/src/components/HelloWorld.test.ts) — coverage is thin
+right now, so add tests as you add real components.
 
 ### Editor setup
 
-VS Code is what the repo is configured for. Open `src/iqc-site/` and it'll recommend the
-extensions ([.vscode/extensions.json](src/iqc-site/.vscode/extensions.json)); take all of
-them. Format-on-save and ESLint autofix are already wired up in
-[.vscode/settings.json](src/iqc-site/.vscode/settings.json).
+VS Code is what the repo is configured for. **Open the repo root** (`promo-site/`), not
+`src/iqc-site/` — VS Code only reads `.vscode/` from the folder you actually open, and the
+shared setup lives at the root. It'll recommend the extensions
+([.vscode/extensions.json](.vscode/extensions.json)); take all of them. Format-on-save,
+ESLint autofix, and a `vue` snippet that scaffolds a component are already wired up.
+
+You still `cd src/iqc-site` in the terminal to run npm commands.
 
 **Install Vue's official extension (Volar) and disable Vetur** if you have it. Vetur is
 the old Vue 2 extension, and having both enabled produces confusing errors.
@@ -236,14 +294,18 @@ because it may be handed to a different AWS account later. Two rules that alread
 - **Never hardcode account IDs, ARNs, bucket names, or regions.**
 
 The IaC tool isn't chosen yet. See [CLAUDE.md](CLAUDE.md) for the full reasoning and the
-other open decisions (test framework, CI).
+remaining open decisions.
 
 ## Troubleshooting
 
 **`npm error Missing script: "dev"`** — you're at the repo root. `cd src/iqc-site`.
 
+**`npm error code EBADENGINE`** — your Node is too old. The repo asks for 20.19+, 22.13+,
+or 24+; `nvm use` picks up the [.nvmrc](.nvmrc). This is deliberate: the alternative is
+npm installing anyway and failing later with something that looks unrelated.
+
 **Editor shows type errors that `npm run typecheck` doesn't** — the TS server is stale.
-In VS Code: <kbd>Ctrl+Shift+P</kbd> → *TypeScript: Restart TS Server*. If errors are only
+In VS Code: <kbd>Ctrl+Shift+P</kbd> → _TypeScript: Restart TS Server_. If errors are only
 in `.vue` files, it's usually Volar missing or Vetur still enabled.
 
 **`npm install` wants `--legacy-peer-deps`** — don't. It silences peer checks repo-wide

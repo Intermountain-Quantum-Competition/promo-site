@@ -23,29 +23,84 @@ promo-site/
 ├── lefthook.yml       ← git hooks (must be at repo root; runs jobs in src/iqc-site)
 ├── .gitattributes     ← line-ending policy (LF everywhere, all platforms)
 ├── .editorconfig      ← indentation: tabs, width 4
+├── .prettierrc.json   ← formatting rules; at the root so they reach the whole repo
+├── .prettierignore
+├── .gitignore         ← root-level ignores (src/iqc-site/ has its own for the app)
 ├── .nvmrc
-└── src/iqc-site/      ← the actual app; run all npm commands from here
+├── .github/workflows/ ← CI
+├── .vscode/           ← shared editor config + snippets; VS Code opens at the repo root
+├── infra/             ← AWS IaC (placeholder, not built)
+└── src/
+    ├── backend/       ← placeholder, not built
+    └── iqc-site/      ← the frontend app; run all npm commands from here
 ```
 
-Run every `npm` command from `src/iqc-site/`, not the repo root. Git hooks and
-`.editorconfig` are the exceptions — they live at the root because their tools require it.
+Run every `npm` command from `src/iqc-site/`, not the repo root.
+
+Things that live at the root do so because their tool requires it, and each one is load
+bearing: git hooks (`lefthook.yml`), `.editorconfig`, `.gitattributes`, the CI workflow,
+the VS Code config — and **the Prettier config, which is at the root specifically so that
+root-level files are formatted with the project's rules.** Prettier searches _upward_ from
+each file for its config; when `.prettierrc.json` lived in `src/iqc-site/`, everything
+above it silently fell back to Prettier's defaults rather than erroring. Don't move it
+back.
 
 ## Commands
 
 All from `src/iqc-site/`:
 
-| Command                | What it does                             |
-| ---------------------- | ---------------------------------------- |
-| `npm run dev`          | Vite dev server                          |
-| `npm run build`        | Typecheck then production build          |
-| `npm run typecheck`    | `vue-tsc -b` — types only, no emit       |
-| `npm run lint`         | ESLint (flat config, `eslint.config.ts`) |
-| `npm run lint:fix`     | ESLint with autofix                      |
-| `npm run format`       | Prettier write                           |
-| `npm run format:check` | Prettier check — what CI should run      |
+| Command                | What it does                                      |
+| ---------------------- | ------------------------------------------------- |
+| `npm run dev`          | Vite dev server                                   |
+| `npm run build`        | Typecheck then production build                   |
+| `npm run typecheck`    | `vue-tsc -b` — types only, no emit                |
+| `npm run test`         | Vitest, single run                                |
+| `npm run test:watch`   | Vitest in watch mode                              |
+| `npm run lint`         | ESLint (flat config, `eslint.config.ts`)          |
+| `npm run lint:fix`     | ESLint with autofix                               |
+| `npm run format`       | Prettier write — **whole repo**, not just the app |
+| `npm run format:check` | Prettier check — **whole repo**                   |
+
+`format` and `format:check` deliberately target `../..` with an explicit `--ignore-path`.
+They are the only scripts that reach outside `src/iqc-site/`, because the Prettier config
+is repo-wide and root-level files (this file, the README, `lefthook.yml`, CI) need
+formatting too. Don't "fix" them back to `.`.
 
 Git hooks run automatically via lefthook: pre-commit lints and formats staged files,
 pre-push typechecks. `npm install` sets them up through the `prepare` script.
+
+**The pre-commit Prettier job has no `root:` on purpose.** In lefthook, `root:` doesn't
+just set the working directory — it also _filters_ `{staged_files}` to that subtree. With
+`root: src/iqc-site/` the job never saw root-level files, which is how the README and
+`lefthook.yml` itself drifted out of format unnoticed. Because the job therefore runs from
+the repo root, where there is no `node_modules`, it resolves the binary with
+`npx --prefix src/iqc-site`. Plain `npx --no-install prettier` appears to work from the
+root, but only via npx's machine-local cache; it fails on a fresh clone.
+
+## CI
+
+`.github/workflows/ci.yml` runs `format:check`, `lint`, `typecheck`, `test`, and `build`
+on every PR and on pushes to `main`. It uses `npm ci` and takes its Node version from
+`.nvmrc`.
+
+The hooks are a convenience; CI is the enforcement, since hooks are per-machine and
+`--no-verify` bypasses them. If you add a check, add it in both places.
+
+`build` overlaps `typecheck` but is kept because it's the only step that exercises
+bundling and asset resolution — an unresolved `@font-face` URL is a build warning and a
+runtime 404 that nothing else here would catch.
+
+## Tests
+
+Vitest + `@vue/test-utils`, jsdom environment. Tests are co-located with the code they
+cover as `*.test.ts`. Coverage is minimal — `HelloWorld.test.ts` is a harness check, not a
+model of what to test.
+
+`vite.config.ts` aliases root-absolute asset URLs to `public/` **for tests only**. Vue's
+template compiler rewrites things like `<use href="/icons.svg#id">` into imports; Vite
+resolves those from `publicDir` when serving and building, but Vitest has no public dir,
+so without the alias the suite fails at import time with a `file:///icons.svg` error that
+names neither the component nor `public/`.
 
 ## Stack
 
@@ -192,9 +247,14 @@ Things deliberately not settled. If you resolve one, update this section.
   default `@media (hover: hover)` guard that keeps hover styles from sticking after a tap
   on touch devices. Nobody has confirmed whether that's deliberate. Keep it and say why,
   or drop the override.
-- Test framework — nothing is installed. Vitest + `@vue/test-utils` is the natural fit
-  for this stack, and Playwright for e2e once there are flows worth testing.
-- CI — no pipeline yet. It should run `typecheck`, `lint`, `format:check`, and tests.
-- Whether `src/iqc-site/` gets hoisted to the repo root. The nesting already forced
-  `lefthook.yml` to the root with a `root:` directive, and it means a fresh clone has no
+- E2E tests. Vitest covers units; Playwright is the natural fit once there are flows worth
+  testing. Nothing is installed.
+- Branch protection on `main`. CI exists but nothing yet _requires_ it to pass, so it is
+  advisory until the checks are marked required in the repo settings. That's a GitHub
+  setting, not a file, so it can't live in this repo — which is exactly why it's easy to
+  forget.
+- Whether `src/iqc-site/` gets hoisted to the repo root. The nesting keeps leaking: it
+  forced `lefthook.yml` to the root with per-job `root:` directives, forced the Prettier
+  config to the root and the `format` scripts to point at `../..`, forced
+  `eslint.workingDirectories` into the VS Code settings, and a fresh clone still has no
   installable project at the top level.

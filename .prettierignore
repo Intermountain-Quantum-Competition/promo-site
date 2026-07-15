@@ -1,0 +1,24 @@
+# Lives at the repo root, not in src/iqc-site/, so that root-level files (README.md,
+# lefthook.yml, CI workflows) resolve to the project's Prettier config. Prettier searches
+# *upward* from each file: with the config inside src/iqc-site/, every file above it
+# silently fell back to Prettier's defaults (80 cols, double quotes) instead of erroring.
+#
+# Patterns are relative to this file, i.e. the repo root. A pattern containing a slash is
+# anchored here -- "src/assets" would mean promo-site/src/assets, which does not exist.
+# Patterns without a slash match at any depth.
+
+dist
+dist-ssr
+coverage
+node_modules
+
+# Per-developer local state, not repo style.
+.claude/settings.local.json
+
+src/iqc-site/public
+src/iqc-site/src/assets
+
+# npm rewrites these on every install; let it own their formatting rather than
+# fighting the pre-commit hook over it.
+package.json
+package-lock.json

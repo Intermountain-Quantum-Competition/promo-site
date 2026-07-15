@@ -1,7 +1,7 @@
-import { globalIgnores } from 'eslint/config'
-import pluginVue from 'eslint-plugin-vue'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
-import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
+import { globalIgnores } from 'eslint/config';
+import pluginVue from 'eslint-plugin-vue';
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
+import skipFormatting from '@vue/eslint-config-prettier/skip-formatting';
 
 export default defineConfigWithVueTs(
 	{
@@ -16,4 +16,4 @@ export default defineConfigWithVueTs(
 
 	// Must stay last: switches off every rule that would fight Prettier.
 	skipFormatting,
-)
+);

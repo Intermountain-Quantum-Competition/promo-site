@@ -1,0 +1,50 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+# A newer push to the same branch makes an in-flight run irrelevant.
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    verify:
+        runs-on: ubuntu-latest
+
+        env:
+            # The `prepare` script installs git hooks, which a CI checkout has no use for.
+            LEFTHOOK: '0'
+
+        defaults:
+            run:
+                # The npm project is not at the repo root. Note this applies to `run:` steps
+                # only -- paths passed to `uses:` actions below stay repo-root-relative.
+                working-directory: src/iqc-site
+
+        steps:
+            - uses: actions/checkout@v5
+
+            - uses: actions/setup-node@v5
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+                  cache-dependency-path: src/iqc-site/package-lock.json
+
+            # `ci`, not `install`: fails on a lockfile that disagrees with package.json
+            # rather than silently rewriting it.
+            - run: npm ci
+
+            # Cheapest checks first, so an obvious failure reports quickly.
+            - run: npm run format:check
+            - run: npm run lint
+            - run: npm run typecheck
+            - run: npm test
+
+            # Also typechecks, so it partly overlaps the step above -- but it is the only
+            # check that exercises bundling and asset resolution. A @font-face URL that
+            # doesn't resolve is a build-time warning and a runtime 404, and nothing else
+            # here would catch it.
+            - run: npm run build
