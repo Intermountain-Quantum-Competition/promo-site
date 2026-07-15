@@ -1,0 +1,91 @@
+@import 'tailwindcss';
+
+@custom-variant hover (&:hover);
+
+/*
+Tailwind Safelists
+https://stackoverflow.com/questions/79323991/how-is-it-possible-to-specify-a-safelist-in-tailwindcss-v4-is-it-possible-to-li
+
+These add height and width classes from 4 to 20 with step of 2, not worrying about breakpoints
+*/
+@source inline('h-{{10..20..2}}');
+@source inline('h-{{4..10}}');
+@source inline('w-{{4..20..2}}');
+@source inline('w-{{4..10}}');
+
+@theme {
+	--color-navy-0: hsl(209, 100%, 6%);
+	--color-navy-1: hsl(208, 100%, 8%);
+	--color-navy-2: hsl(209, 100%, 11%);
+	--color-navy-3: hsl(210, 100%, 18%);
+	--color-base: hsl(210, 100%, 18%);
+	--color-navy-4: hsl(211, 85%, 26%);
+	--color-royal: hsl(217, 100%, 36%);
+	--color-gold: hsl(48, 95%, 77%);
+	--color-salmon: hsl(13, 100%, 74%);
+	--color-offwhite: hsl(45, 33%, 93%);
+}
+
+/*
+Paths are relative so Vite resolves, hashes and emits these from src/assets/.
+A root-relative "/fonts/..." would only work for files in public/, and fails silently.
+
+These .woff2 files are Latin-subset builds of the .ttf originals in the same
+directory, produced with fontTools (see below). Regenerate them if the charset or
+the source font ever changes — the .ttf files are the masters, the .woff2 are build
+artifacts that happen to be committed:
+
+  python -m pip install fonttools brotli
+  python -m fontTools.subset "<source>.ttf" \
+    --unicodes="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD" \
+    --layout-features='kern,liga,clig,calt,ccmp,locl,mark,mkmk,rlig' \
+    --flavor=woff2 --output-file="<name>.woff2"
+*/
+
+@font-face {
+	font-family: 'Source Serif';
+	src: url('./assets/fonts/SourceSerif4.woff2') format('woff2');
+	/* wght axis range, per the font's fvar table. Without it the axis pins to 400. */
+	font-weight: 200 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Source Serif';
+	src: url('./assets/fonts/SourceSerif4-Italic.woff2') format('woff2');
+	font-weight: 200 900;
+	font-style: italic;
+	font-display: swap;
+}
+
+/* Static font — single weight, so no range. */
+@font-face {
+	font-family: 'Avenir';
+	src: url('./assets/fonts/Avenir-Light.woff2') format('woff2');
+	font-display: swap;
+}
+
+/*
+font-variation-settings drives the wght axis of the variable Source Serif.
+Note it *overrides* font-weight, so `font-header font-normal` still renders at 700 —
+these tokens own their weight and do not compose with Tailwind's weight utilities.
+Tailwind only honours --font-*--font-variation-settings and --font-*--font-feature-settings
+here; a --font-*--font-weight is silently ignored.
+*/
+
+@theme {
+	--font-header: 'Source Serif', 'Georgia', 'Cambria', serif;
+	--font-header--font-variation-settings: 'wght' 700;
+
+	--font-subheader: 'Source Serif', 'Georgia', 'Cambria', serif;
+	--font-subheader--font-variation-settings: 'wght' 400;
+
+	--font-body: 'Avenir', 'Lucida Sans', 'Calibri', sans-serif;
+}
+
+@theme {
+	--font-probe: 'Source Serif', serif;
+	--font-probe--font-variation-settings: 'wght' 700;
+	--font-probe--font-feature-settings: 'liga';
+}

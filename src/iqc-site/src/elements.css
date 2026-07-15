@@ -1,0 +1,52 @@
+/*
+Element presets.
+
+Bare HTML elements pick up the project's font tokens so components don't have to
+repeat `class="font-header"` on every heading. This is a convenience, not a design
+system — it sets font family and weight only. Sizing, spacing and colour stay the
+caller's job.
+
+Everything lives in `@layer base` on purpose. Tailwind's utilities live in a later
+layer, so a utility always wins over a preset here: `<h1 class="font-body">` does
+what it says. Move these rules out of the layer and that stops being true — an
+unlayered rule beats every layered one regardless of specificity, and the presets
+would quietly become mandatory.
+
+Adding a preset is a real decision: every rule here applies site-wide to an element
+nobody had to opt in to. Font tokens earn that. Margins and colours generally don't.
+*/
+
+@import 'tailwindcss';
+
+@layer base {
+	body {
+		font-family: var(--font-body);
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		letter-spacing: var(--tracking-wide);
+	}
+
+	/*
+	font-variation-settings carries the weight, because the token's weight lives on
+	the axis rather than in font-weight — see the note in theme.css.
+	*/
+	h1,
+	h2 {
+		font-family: var(--font-header);
+		font-variation-settings: var(--font-header--font-variation-settings);
+	}
+
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: var(--font-subheader);
+		font-variation-settings: var(--font-subheader--font-variation-settings);
+	}
+}
