@@ -1,12 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import viteLogo from '../assets/vite.svg'
-import heroImg from '../assets/hero.png'
-import vueLogo from '../assets/vue.svg'
-
-const count = ref(0)
-</script>
-
 <template>
 	<section id="center">
 		<div class="hero">
@@ -91,3 +82,23 @@ const count = ref(0)
 	<div class="ticks"></div>
 	<section id="spacer"></section>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import viteLogo from '../assets/vite.svg'
+import heroImg from '../assets/hero.png'
+import vueLogo from '../assets/vue.svg'
+
+export default defineComponent({
+	name: 'HelloWorld',
+	data() {
+		return {
+			// Imported asset URLs must be returned from data() to reach the template.
+			viteLogo,
+			heroImg,
+			vueLogo,
+			count: 0,
+		}
+	},
+})
+</script>

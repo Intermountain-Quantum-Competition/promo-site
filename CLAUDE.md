@@ -49,7 +49,7 @@ pre-push typechecks. `npm install` sets them up through the `prepare` script.
 
 ## Stack
 
-Vue 3 (`<script setup>` SFCs, Composition API only), TypeScript, Vite 8, Tailwind 4
+Vue 3 (Options API only, `defineComponent` SFCs), TypeScript, Vite 8, Tailwind 4
 (configured via `@tailwindcss/vite`, not a `tailwind.config.js`), Pinia 3, vue-router 5.
 
 ### Pinia is pinned to 3.x on purpose — do not upgrade to 4
@@ -75,7 +75,16 @@ restructured its dependencies. Keep it explicit.
 
 ## Conventions
 
-- **Composition API with `<script setup lang="ts">`.** No Options API, no plain-JS SFCs.
+- **Options API with `<script lang="ts">`.** This is a deliberate project choice, not
+  legacy code to migrate. Do not "modernize" a component to `<script setup>` or the
+  Composition API, and do not suggest it in review. No plain-JS SFCs.
+  - Always `export default defineComponent({ ... })` — a bare object makes
+    `this` implicitly `any` in every method and computed.
+  - Annotate computed return types; inference through `this` is unreliable.
+  - Imports are not exposed to the template. Asset URLs and the like must be returned
+    from `data()`.
+  - Never use arrow functions for `data` or methods — they lose the `this` binding.
+- **Block order is `<template>` then `<script>`**, matching the existing components.
 - **Routing:** routes are declared in `src/router/index.ts`. Route components live in
   `src/views/`, reusable pieces in `src/components/`. Lazy-load every route except the
   landing page (`component: () => import('../views/Foo.vue')`) to keep it out of the
