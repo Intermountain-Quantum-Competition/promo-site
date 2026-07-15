@@ -1,0 +1,24 @@
+# The npm project is not at the repo root, so every job sets `root:` to point at it.
+# `root` is a per-job option in lefthook -- setting it at the top level silently does
+# nothing, and jobs then run from the repo root where there is no package.json.
+
+pre-commit:
+  parallel: true
+  jobs:
+    - name: eslint
+      root: "src/iqc-site/"
+      glob: "*.{ts,mts,tsx,vue}"
+      run: npx --no-install eslint --fix {staged_files}
+      stage_fixed: true
+
+    - name: prettier
+      root: "src/iqc-site/"
+      glob: "*.{ts,mts,tsx,vue,css,json,md,yml,yaml}"
+      run: npx --no-install prettier --write {staged_files}
+      stage_fixed: true
+
+pre-push:
+  jobs:
+    - name: typecheck
+      root: "src/iqc-site/"
+      run: npm run typecheck

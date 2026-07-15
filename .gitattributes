@@ -1,0 +1,22 @@
+# Line endings are a repo policy, not a per-machine one. Without this file, the
+# working-tree line endings depend on each developer's local `core.autocrlf`, which
+# differs between Windows and macOS/Linux installs and produces whole-file diffs.
+#
+# `eol=lf` forces LF in the working tree on every platform, matching .editorconfig
+# (`end_of_line = lf`) and Prettier. Do not remove without changing all three.
+* text=auto eol=lf
+
+# Binary files: never touch these.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+
+# Generated; collapse in diffs and reviews.
+package-lock.json -diff linguist-generated
