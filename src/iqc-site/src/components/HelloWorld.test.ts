@@ -2,8 +2,8 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 import HelloWorld from './HelloWorld.vue';
 
-// Tests live next to the code they cover. This one exists mainly to keep the harness
-// honest -- it will go when HelloWorld does, and that's fine.
+// Basic smoke test to ensure the landing-page content renders.
+// Expand/replace with more specific assertions as the home page evolves.
 describe('HelloWorld', () => {
 	it('renders the IQC landing-page content', () => {
 		const wrapper = mount(HelloWorld);
