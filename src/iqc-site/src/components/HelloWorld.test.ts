@@ -2,17 +2,13 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 import HelloWorld from './HelloWorld.vue';
 
-// Tests live next to the code they cover. This one exists mainly to keep the harness
-// honest -- it will go when HelloWorld does, and that's fine.
+// Basic smoke test to ensure the landing-page content renders.
+// Expand/replace with more specific assertions as the home page evolves.
 describe('HelloWorld', () => {
-	it('increments the counter when the button is clicked', async () => {
+	it('renders the IQC landing-page content', () => {
 		const wrapper = mount(HelloWorld);
-		const button = wrapper.get('button');
 
-		expect(button.text()).toBe('Count is 0');
-
-		await button.trigger('click');
-
-		expect(button.text()).toBe('Count is 1');
+		expect(wrapper.text()).toContain('Intermountain Quantum Competition');
+		expect(wrapper.text()).not.toContain('Get started');
 	});
 });
