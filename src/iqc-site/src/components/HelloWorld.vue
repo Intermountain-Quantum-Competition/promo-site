@@ -20,8 +20,8 @@
 		<section>
 			<h2>Stay informed</h2>
 			<p>
-				Registration dates, eligibility details, and event updates will be posted here
-				as the competition schedule is finalized.
+				Registration dates, eligibility details, and event updates will be posted here as
+				the competition schedule is finalized.
 			</p>
 		</section>
 	</main>
