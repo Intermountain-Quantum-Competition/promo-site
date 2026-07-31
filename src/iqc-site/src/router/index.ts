@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import LandingPage from '../views/LandingPage.vue';
 
 export const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +7,7 @@ export const router = createRouter({
 		{
 			path: '/',
 			name: 'home',
-			component: HomeView,
+			component: LandingPage,
 		},
 		{
 			// Lazy-loaded so it stays out of the initial bundle. Prefer this form for
