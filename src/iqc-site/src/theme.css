@@ -14,12 +14,13 @@ These add height and width classes from 4 to 20 with step of 2, not worrying abo
 @source inline('w-{{4..10}}');
 
 @theme {
-	--color-navy-0: hsl(209, 100%, 6%);
-	--color-navy-1: hsl(208, 100%, 8%);
-	--color-navy-2: hsl(209, 100%, 11%);
-	--color-navy-3: hsl(210, 100%, 18%);
+	--color-navy-0: hsl(222, 70%, 5%);
+	--color-navy-1: hsl(209, 100%, 6%);
+	--color-navy-2: hsl(208, 100%, 8%);
+	--color-navy-3: hsl(209, 100%, 11%);
+	--color-navy-4: hsl(210, 100%, 18%);
 	--color-base: hsl(210, 100%, 18%);
-	--color-navy-4: hsl(211, 85%, 26%);
+	--color-navy-5: hsl(211, 85%, 26%);
 	--color-royal: hsl(217, 100%, 36%);
 	--color-gold: hsl(48, 95%, 77%);
 	--color-salmon: hsl(13, 100%, 74%);
