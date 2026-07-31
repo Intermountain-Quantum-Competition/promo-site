@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import './style.css';
 import './theme.css';
 import './elements.css';
+import './lib/fontawesome';
 import App from './App.vue';
 import { createPinia } from 'pinia';
 import { router } from './router';
