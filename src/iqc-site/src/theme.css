@@ -25,6 +25,7 @@ These add height and width classes from 4 to 20 with step of 2, not worrying abo
 	--color-gold: hsl(48, 95%, 77%);
 	--color-salmon: hsl(13, 100%, 74%);
 	--color-offwhite: hsl(45, 33%, 93%);
+	--color-darkwhite: hsl(45, 14%, 75%);
 }
 
 /*
