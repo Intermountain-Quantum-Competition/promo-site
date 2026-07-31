@@ -79,6 +79,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
+/* @import 'tailwindcss'; */
 @reference "@/theme.css";
 
 .vspacer {

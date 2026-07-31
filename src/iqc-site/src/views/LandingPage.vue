@@ -13,17 +13,20 @@
 				</p>
 			</div>
 		</HeroSection>
+		<CountdownTimer />
 	</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import PageHeader from '@/components/shared/PageHeader.vue';
+import CountdownTimer from '@/components/pageelements/landing/CountdownTimer.vue';
 import HeroSection from '@/components/shared/HeroSection.vue';
 
 export default defineComponent({
 	components: {
 		PageHeader,
+		CountdownTimer,
 		HeroSection,
 	},
 	mixins: [],
