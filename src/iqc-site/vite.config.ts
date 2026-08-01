@@ -15,6 +15,12 @@ export default defineConfig({
 	// import.meta.env.BASE_URL, so changing it here is enough; don't also hardcode it there.
 	base: '/',
 
+	resolve: {
+		alias: {
+			'@': fileURLToPath(new URL('./src', import.meta.url)),
+		},
+	},
+
 	plugins: [vue(), tailwindcss()],
 	test: {
 		// Components touch the DOM, so tests need one. Node's default environment has no

@@ -1,0 +1,59 @@
+<template>
+	<div class="custom-icon" :title="hoverText">
+		<svg v-if="color" :class="iconClasses" :style="rawStyle">
+			<use :xlink:href="iconPath"></use>
+		</svg>
+		<img v-else :src="iconPath" :class="iconClasses" />
+	</div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+	components: {},
+	props: {
+		icon: {
+			type: String,
+			default: '',
+		},
+		size: {
+			type: [String, null],
+			default: '8',
+		},
+		color: {
+			type: [String, null],
+			default: null,
+		},
+		hoverText: {
+			type: String,
+			default: '',
+		},
+		svgStyle: {
+			type: String,
+			default: '',
+		},
+	},
+	data() {
+		return {};
+	},
+	computed: {
+		iconPath() {
+			return `icons/${this.icon}.svg#icon`;
+		},
+		iconClasses() {
+			const col = this.color ?? '';
+			const size = this.size ? `h-${this.size} w-${this.size} ` : '';
+			return `${size}${col} ${this.svgStyle}`;
+		},
+		rawStyle() {
+			if (!this.color) {
+				return { color: 'currentColor' };
+			}
+			return {};
+		},
+	},
+});
+</script>
+
+<style scoped></style>

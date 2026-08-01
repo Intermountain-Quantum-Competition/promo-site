@@ -101,8 +101,30 @@ runtime 404 that nothing else here would catch.
 ## Tests
 
 Vitest + `@vue/test-utils`, jsdom environment. Tests are co-located with the code they
-cover as `*.test.ts`. Coverage is minimal — `HelloWorld.test.ts` is a harness check, not a
-model of what to test.
+cover as `*.test.ts`. Coverage is deliberately narrow: `WaveField` and `HeroSection`, the
+two pieces with behaviour that isn't obvious from reading them. Everything else is
+presentational and untested so far.
+
+`tsconfig.app.json` includes `src/**/*.ts`, so **test files are typechecked** and a broken
+test fails `npm run typecheck` and `npm run build`, not just `npm run test`. Vitest globals
+are not in `types`, so import `describe` / `it` / `expect` / `vi` from `vitest` explicitly.
+
+### Testing anything that measures itself needs a stubbed layout
+
+**jsdom reports every box as 0×0.** `WaveField` sizes its grid from
+`getBoundingClientRect`, so under jsdom it correctly draws nothing — and a suite that
+forgets this passes vacuously while asserting over empty strings. `WaveField.test.ts`
+stubs `Element.prototype.getBoundingClientRect` before mount and derives the expected row
+and column counts from those same numbers. It also stubs `requestAnimationFrame` into a
+manually-driven queue, which is what makes the time-dependent assertions deterministic
+instead of timing-dependent.
+
+`ResizeObserver` and `IntersectionObserver` don't exist in jsdom either, and `WaveField`
+constructs both in `mounted()` — without stubs the mount throws.
+
+Prefer `shallowMount` when the component under test merely _contains_ `WaveField`
+(`HeroSection.test.ts` does this) — it stubs the field out and avoids needing any of the
+above.
 
 `vite.config.ts` aliases root-absolute asset URLs to `public/` **for tests only**. Vue's
 template compiler rewrites things like `<use href="/icons.svg#id">` into imports; Vite
@@ -247,6 +269,59 @@ Two things that must stay true:
     wanted, the Monotype build is Light 300 only — source a Monotype _web_ build of the
     weight you need rather than pulling one out of a system `.ttc`, because mixing foundry
     builds mixes vertical metrics, per above.
+
+## Icons
+
+Two separate icon systems coexist on purpose — pick based on where the icon comes from,
+don't standardize on one:
+
+- **`SimpleIcon` (`src/components/common/SimpleIcon.vue`) + `tools/convert-icon.js`** —
+  for one-off / brand / hand-picked SVGs. `convert-icon.js` wraps a raw SVG into the
+  shared `<symbol id="icon">` format and drops it in `public/icons/`; `SimpleIcon` renders
+  it via `<use xlink:href="icons/{name}.svg#icon">` and normalizes `fill` to
+  `currentColor` so the `color`/`size` props work. No JS bundle cost beyond the SVG file
+  itself.
+- **`@fortawesome/*` packages** — for pulling from FontAwesome's free set without
+  hand-converting each SVG. Only `fontawesome-svg-core`, `free-solid-svg-icons`, and
+  `vue-fontawesome` are installed; add `free-regular-svg-icons` / `free-brands-svg-icons`
+  if a component needs an outline or logo icon. This is the paid-tier-adjacent free set —
+  see the licensing note below before assuming an icon is available.
+
+`src/lib/fontawesome.ts` turns off `autoAddCss` and imports FontAwesome's stylesheet
+explicitly instead, so the CSS lands at a known point in the cascade rather than as a
+`<style>` tag injected on first icon render; it's pulled in once via a side-effect import
+in `main.ts`. It intentionally does not call `library.add()` for any icon — nothing uses
+one yet, and pre-registering icons nobody renders is dead weight.
+
+When a component needs a FontAwesome icon, follow the Options API convention (no global
+registration, no bare imports referenced from the template): import the icon and
+`library`, call `library.add()`, and register `FontAwesomeIcon` in that component's own
+`components: {}`, then reference the icon by its kebab-case name string in the template:
+
+```ts
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faMagnifyingGlass);
+
+export default defineComponent({
+	components: { FontAwesomeIcon },
+	// ...
+});
+```
+
+```html
+<FontAwesomeIcon icon="magnifying-glass" />
+```
+
+`library.add()` is idempotent per icon, so calling it again in a second component that
+uses the same icon is fine — don't build a central icon registry file to avoid it.
+
+FontAwesome Free (`free-solid-svg-icons` et al.) is genuinely free and unrelated to the
+Avenir licensing situation below — no account, key, or attribution is required for the
+icons themselves. It's a subset of Pro, though: most icons with a "regular" (outline)
+variant in Pro don't have one in Free, only solid.
 
 ## Deployment (GitHub Pages)
 
