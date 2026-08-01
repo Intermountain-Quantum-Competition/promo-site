@@ -22,7 +22,7 @@
 
 		<div class="flex justify-center mb-4">
 			<div class="w-11/12 lg:w-2/3 max-w-300">
-				<p class="tracking-widest w-full mb-2 text-sm font-bold">
+				<p class="tracking-widest w-full mb-2 text-xs lg:text-sm font-bold">
 					<span class="text-gold mr-2">03</span> END
 				</p>
 			</div>
