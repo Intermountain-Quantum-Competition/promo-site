@@ -32,7 +32,7 @@
 				class="flex flex-col lg:flex-row items-center lg:justify-center gap-4 lg:gap-12 w-full mt-8"
 			>
 				<!-- <RouterLink to="/about"> -->
-				<ActionButton :variant="BTN_VARIANT.Secondary">SEE THE SCHEDULE</ActionButton>
+				<!-- <ActionButton :variant="BTN_VARIANT.Secondary">SEE THE SCHEDULE</ActionButton> -->
 				<!-- </RouterLink> -->
 				<RouterLink to="/students">
 					<ActionButton right-icon="arrow-right-long">REGISTER</ActionButton>
