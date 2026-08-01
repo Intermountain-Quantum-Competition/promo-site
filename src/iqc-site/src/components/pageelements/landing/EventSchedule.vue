@@ -1,12 +1,14 @@
 <template>
 	<div class="py-20 flex justify-center">
-		<div class="w-2/3 max-w-300">
+		<div class="w-11/12 lg:w-2/3 max-w-300">
 			<div class="mb-8">
-				<p class="tracking-widest w-full mb-2 text-sm font-bold">
+				<p class="tracking-widest w-full lg:mb-2 text-xs lg:text-sm font-bold">
 					<span class="text-gold mr-2">02</span> SCHEDULE
 				</p>
-				<h1 class="text-5xl">Lots to do.</h1>
-				<p class="mt-4">All dates and times are in MST (GMT -07:00).</p>
+				<h1 class="text-3xl lg:text-5xl">Lots to do.</h1>
+				<p class="mt-2 lg:mt-4 text-sm lg:text-md">
+					All dates and times are in MST (GMT -07:00).
+				</p>
 			</div>
 
 			<template v-for="(day, dayIdx) in schedule" :key="dayIdx">

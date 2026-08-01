@@ -3,12 +3,12 @@
 		<HeroSection>
 			<PageHeader />
 			<div class="flex flex-col w-full items-center mt-30">
-				<div class="mt-auto mb-14 w-2/3 max-w-300">
-					<p class="tracking-widest mb-2 text-sm font-bold">
+				<div class="mt-auto mb-14 w-11/12 lg:w-2/3 lg:max-w-300">
+					<p class="tracking-widest lg:mb-2 text-xs lg:text-sm font-bold">
 						<span class="text-gold mr-2">00</span> START
 					</p>
-					<h1 class="text-5xl">Quantum on the frontier.</h1>
-					<p class="mt-4">
+					<h1 class="text-3xl lg:text-5xl">Quantum on the frontier.</h1>
+					<p class="mt-2 lg:mt-4 text-sm lg:text-md">
 						It's been a while since Utah was the "wild west". <br />
 						Now we're back. Welcome to the quantum frontier.
 					</p>
@@ -21,7 +21,7 @@
 		<EventSchedule />
 
 		<div class="flex justify-center mb-4">
-			<div class="w-2/3 max-w-300">
+			<div class="w-11/12 lg:w-2/3 max-w-300">
 				<p class="tracking-widest w-full mb-2 text-sm font-bold">
 					<span class="text-gold mr-2">03</span> END
 				</p>

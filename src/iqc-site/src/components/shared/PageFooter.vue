@@ -1,17 +1,19 @@
 <template>
-	<footer class="bg-navy-0 w-full py-10">
-		<div class="flex justify-between items-center px-6">
+	<footer class="bg-navy-0 w-full py-4 lg:py-10">
+		<div class="flex justify-between items-center px-2 lg:px-6">
 			<div class="flex items-center text-darkwhite">
-				<img :src="iqcInlineLogo" class="h-8 mr-2" />
-				<span class="text-xs">●</span>
-				<p class="font-header mx-4">INTERMOUNTAIN QUANTUM HACKATHON</p>
-				<span class="text-xs">●</span>
-				<p class="font-header mx-4">© 2026 BYU</p>
+				<img :src="iqcInlineLogo" class="h-6 lg:h-8 mr-2" />
+				<span class="text-xs hidden lg:block">●</span>
+				<p class="font-header mx-4 hidden lg:block">INTERMOUNTAIN QUANTUM HACKATHON</p>
+				<span class="text-xs hidden lg:block">●</span>
+				<p class="font-header mx-4 hidden lg:block">© 2026 BYU</p>
 			</div>
+
+			<p class="font-header mx-4 text-xs lg:hidden">© 2026 BYU</p>
 
 			<a href="https://byu.edu" target="_blank">
 				<div>
-					<img :src="byuLogo" class="h-8" />
+					<img :src="byuLogo" class="h-6 lg:h-8" />
 				</div>
 			</a>
 		</div>

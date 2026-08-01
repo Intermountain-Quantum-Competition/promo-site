@@ -1,34 +1,36 @@
 <template>
-	<div class="bg-navy-2 border-t-2 border-b-2 border-navy-4 py-20 flex justify-center">
-		<div class="flex flex-col items-center w-2/3 max-w-300">
-			<p class="tracking-widest w-full mb-2 text-sm font-bold">
+	<div class="bg-navy-2 border-t-2 border-b-2 border-navy-4 py-12 lg:py-20 flex justify-center">
+		<div class="flex flex-col items-center w-11/12 lg:w-2/3 max-w-300">
+			<p class="tracking-widest w-full mb-2 text-xs lg:text-sm font-bold">
 				<span class="text-gold mr-2">01</span> COUNTDOWN
 			</p>
 			<div
-				class="bg-navy-1 w-full rounded-2xl border-2 border-navy-4 flex items-center justify-around py-20 px-30"
+				class="bg-navy-1 w-full rounded-2xl border-2 border-navy-4 flex items-center justify-around py-4 lg:py-20 px-10 lg:px-30"
 			>
 				<div class="flex flex-col items-center">
-					<p class="text-8xl">{{ timeValues.days }}</p>
-					<p class="mt-2 text-darkwhite">DAYS</p>
+					<p class="text-3xl lg:text-8xl">{{ timeValues.days }}</p>
+					<p class="text-xs lg:text-md mt-2 text-darkwhite">DAY</p>
 				</div>
-				<div class="text-6xl mb-6">:</div>
+				<div class="text-xl lg:text-6xl mb-6">:</div>
 				<div class="flex flex-col items-center">
-					<p class="text-8xl">{{ timeValues.hours }}</p>
-					<p class="mt-2 text-darkwhite">HOURS</p>
+					<p class="text-3xl lg:text-8xl">{{ timeValues.hours }}</p>
+					<p class="text-xs lg:text-md mt-2 text-darkwhite">HR</p>
 				</div>
-				<div class="text-6xl mb-6">:</div>
+				<div class="text-xl lg:text-6xl mb-6">:</div>
 				<div class="flex flex-col items-center">
-					<p class="text-8xl">{{ timeValues.minutes }}</p>
-					<p class="mt-2 text-darkwhite">MINUTES</p>
+					<p class="text-3xl lg:text-8xl">{{ timeValues.minutes }}</p>
+					<p class="text-xs lg:text-md mt-2 text-darkwhite">MIN</p>
 				</div>
-				<div class="text-6xl mb-6">:</div>
+				<div class="text-xl lg:text-6xl mb-6">:</div>
 				<div class="flex flex-col items-center">
-					<p class="text-8xl">{{ timeValues.seconds }}</p>
-					<p class="mt-2 text-darkwhite">SECONDS</p>
+					<p class="text-3xl lg:text-8xl">{{ timeValues.seconds }}</p>
+					<p class="text-xs lg:text-md mt-2 text-darkwhite">SEC</p>
 				</div>
 			</div>
 
-			<div class="flex justify-center gap-12 w-full mt-8">
+			<div
+				class="flex flex-col lg:flex-row items-center lg:justify-center gap-4 lg:gap-12 w-full mt-8"
+			>
 				<!-- <RouterLink to="/about"> -->
 				<ActionButton :variant="BTN_VARIANT.Secondary">SEE THE SCHEDULE</ActionButton>
 				<!-- </RouterLink> -->
