@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import LandingPage from '../views/LandingPage.vue';
 
 export const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,8 +7,23 @@ export const router = createRouter({
 		{
 			path: '/',
 			name: 'home',
-			component: HomeView,
+			component: LandingPage,
 		},
+		// {
+		// 	path: '/sponsors',
+		// 	name: 'sponsors',
+		// 	component: () => import('@/views/SponsorsPage.vue')
+		// },
+		{
+			path: '/students',
+			name: 'students',
+			component: () => import('@/views/StudentsPage.vue'),
+		},
+		// {
+		// 	path: '/about',
+		// 	name: 'about',
+		// 	component: () => import('@/views/AboutPage.vue')
+		// },
 		{
 			// Lazy-loaded so it stays out of the initial bundle. Prefer this form for
 			// any route that isn't the landing page.
