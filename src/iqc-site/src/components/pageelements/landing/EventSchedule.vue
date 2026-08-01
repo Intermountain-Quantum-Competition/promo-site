@@ -22,7 +22,7 @@
 							class="flex items-center bg-navy-3 rounded-lg mt-3 overflow-hidden border border-navy-4"
 						>
 							<p
-								class="bg-navy-2 px-4 py-4 font-mono mr-4 w-26 text-center rounded-lg"
+								class="bg-navy-2 px-4 py-4 font-mono mr-4 min-w-26 text-center rounded-lg"
 							>
 								{{ event.time }}
 							</p>
@@ -48,18 +48,23 @@ export default defineComponent({
 			schedule: [
 				[
 					// Day 1
-					{ time: '00:00', desc: 'Event Start' },
-					{ time: '08:00', desc: 'Breakfast' },
-					{ time: '20:00', desc: 'Sleepy Time' },
+					{ time: '09:00', desc: 'Check-in' },
+					{ time: '09:30', desc: 'Welcome & keynote presentation' },
+					{ time: '10:30', desc: 'Company presentations (rounds 1 & 2)' },
+					{ time: '12:30', desc: 'Networking lunch' },
+					{ time: '13:40', desc: 'Q&A presentations & drafting' },
+					{ time: '15:15', desc: 'Competition begins' },
 				],
 				[
 					// Day 2
-					{ time: '12:00', desc: 'Placeholder' },
+					{ time: '15:00', desc: 'Competition ends' },
+					{ time: '15:00', desc: 'Final team presentations' },
+					{ time: '17:00', desc: 'Closing remarks & awards' },
 				],
-				[
-					// Day 3
-					{ time: '12:00', desc: 'Placeholder' },
-				],
+				// [
+				// 	// Day 3
+				// 	{ time: '12:00', desc: 'Placeholder' },
+				// ],
 			],
 		};
 	},
