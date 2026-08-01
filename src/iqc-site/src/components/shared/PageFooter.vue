@@ -4,7 +4,7 @@
 			<div class="flex items-center text-darkwhite">
 				<img :src="iqcInlineLogo" class="h-6 lg:h-8 mr-2" />
 				<span class="text-xs hidden lg:block">●</span>
-				<p class="font-header mx-4 hidden lg:block">INTERMOUNTAIN QUANTUM HACKATHON</p>
+				<p class="font-header mx-4 hidden lg:block">INTERMOUNTAIN QUANTUM COMPETITION</p>
 				<span class="text-xs hidden lg:block">●</span>
 				<p class="font-header mx-4 hidden lg:block">© 2026 BYU</p>
 			</div>

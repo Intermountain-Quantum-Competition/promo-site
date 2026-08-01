@@ -42,16 +42,20 @@ import PageFooter from '@/components/shared/PageFooter.vue';
 import SponsorScroller, {
 	type Sponsor,
 } from '@/components/pageelements/landing/SponsorScroller.vue';
-import iqcLogo from '@/assets/branding/IQC/IQC Inline.svg';
-import byuLogo from '@/assets/branding/BYU/BYU monogram_white.svg';
+import nucleusinst from '@/assets/branding/Sponsors/nucleusinstitute.svg';
+import nasdaq from '@/assets/branding/Sponsors/nasdaq.svg';
+import ibm from '@/assets/branding/Sponsors/ibm.svg';
 
 /*
-TODO: placeholders. Real sponsor marks go in src/assets/branding/sponsors/, and want to
-be light monochrome SVGs — the strip sits on the dark hero.
+`scale` is an optical trim, tuned by eye against the rendered strip — the scroller caps
+every mark to the same box, but it cannot see whitespace baked into the artwork. The
+Nucleus .webp is mostly padding inside its own 2500x1311 frame, hence the largest
+correction; re-exporting it cropped would let that drop back toward 1.
 */
 const SPONSORS: Sponsor[] = [
-	{ name: 'Intermountain Quantum Competition', logo: iqcLogo },
-	{ name: 'Brigham Young University', logo: byuLogo },
+	{ name: 'The Nucleus Institute', logo: nucleusinst, scale: 0.8 },
+	{ name: 'Nasdaq', logo: nasdaq },
+	{ name: 'IBM', logo: ibm, scale: 0.9 },
 ];
 
 export default defineComponent({

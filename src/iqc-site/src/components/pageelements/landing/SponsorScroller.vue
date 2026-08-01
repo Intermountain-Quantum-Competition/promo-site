@@ -26,10 +26,11 @@
 					:aria-label="copy === 1 ? label : undefined"
 					:aria-hidden="copy === 1 ? undefined : 'true'"
 				>
-					<li v-for="sponsor in sponsors" :key="sponsor.name" class="shrink-0">
+					<li v-for="(sponsor, index) in sponsors" :key="index" class="shrink-0">
 						<img
 							:src="sponsor.logo"
 							:alt="copy === 1 ? sponsor.name : ''"
+							:style="logoStyle(sponsor)"
 							class="sponsor-scroller__logo"
 							decoding="async"
 							@load="onLogoLoad"
@@ -69,6 +70,13 @@ any JS here at all:
 export interface Sponsor {
 	name: string;
 	logo: string;
+	/**
+	 * Optical size trim, applied to both bounds. Omit it for anything that already sits
+	 * right. It exists for the two things no sizing rule can see: artwork with its own
+	 * whitespace baked into the frame, and a mark that is simply heavier or lighter than
+	 * its neighbours at the same measured size.
+	 */
+	scale?: number;
 }
 
 /*
@@ -101,10 +109,18 @@ export default defineComponent({
 			type: String,
 			default: '6rem',
 		},
-		/** Logos are sized by height so mixed aspect ratios still sit on one line. */
+		/**
+		 * Height cap. Together with `logoMaxWidth` this is the box every mark is fitted
+		 * into — see the sizing note in the stylesheet for why both bounds are needed.
+		 */
 		logoHeight: {
 			type: String,
 			default: '2rem',
+		},
+		/** Width cap. Wide wordmarks hit this first and come out shorter than the cap above. */
+		logoMaxWidth: {
+			type: String,
+			default: '8rem',
 		},
 		/** Width of the fade at each end of the strip. Any CSS length or percentage. */
 		fade: {
@@ -144,6 +160,7 @@ export default defineComponent({
 			return {
 				'--sponsor-gap': this.gap,
 				'--sponsor-logo-height': this.logoHeight,
+				'--sponsor-logo-max-width': this.logoMaxWidth,
 				'--sponsor-fade': this.fade,
 			};
 		},
@@ -176,6 +193,7 @@ export default defineComponent({
 		sponsors: 'scheduleMeasure',
 		gap: 'scheduleMeasure',
 		logoHeight: 'scheduleMeasure',
+		logoMaxWidth: 'scheduleMeasure',
 	},
 	mounted() {
 		this.motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -246,6 +264,12 @@ export default defineComponent({
 		*/
 		onLogoLoad() {
 			this.measure();
+		},
+
+		/* Feeds Sponsor.scale to the stylesheet, which multiplies both bounds by it. */
+		logoStyle(sponsor: Sponsor): StyleValue {
+			if (!sponsor.scale || sponsor.scale === 1) return {};
+			return { '--sponsor-logo-scale': String(sponsor.scale) };
 		},
 
 		onIntersect(entries: IntersectionObserverEntry[]) {
@@ -322,18 +346,33 @@ export default defineComponent({
 
 .sponsor-scroller__logo {
 	display: block;
-	height: var(--sponsor-logo-height);
+	/*
+	Both axes are capped, and that is most of the normalisation on its own. Height alone
+	is the obvious way to size a row of logos and the wrong one: it makes rendered *area*
+	scale with the aspect ratio, so a long wordmark ends up several times the visual mass
+	of a compact mark that is nominally "the same size". Capping width too means the wide
+	one runs out of room first and settles below the height cap, which is what the eye
+	was expecting anyway.
+
+	What this cannot fix is whitespace inside the artwork — a logo exported with padding
+	in its own frame measures large and reads small, and nothing here can tell the
+	difference. That is what Sponsor.scale is for; cropping the asset is the better fix
+	where you can.
+
+	The explicit max-width also displaces Tailwind's preflight `img { max-width: 100% }`,
+	which inside a max-content track resolves against the wrong box.
+	*/
+	height: calc(var(--sponsor-logo-height) * var(--sponsor-logo-scale, 1));
 	width: auto;
-	/* Tailwind's preflight caps images at max-width:100%, which inside a max-content
-	   track resolves against the wrong box and squashes wide logos. */
-	max-width: none;
+	max-width: calc(var(--sponsor-logo-max-width) * var(--sponsor-logo-scale, 1));
+	/* Bites only once the width cap does, and shrinks the mark to fit rather than
+	   squashing it. Also centres it in the leftover vertical space. */
 	object-fit: contain;
 	/*
-	Logos are supplied as light monochrome marks — they sit on the dark hero, and a
-	strip of assorted brand colours pulls focus from the headline above it. This is the
-	last few percent of that, not a substitute for the right asset.
+	Takes the last few percent off full-strength brand colour so the strip sits behind
+	the headline rather than competing with it.
 	*/
-	opacity: 0.75;
+	opacity: 0.8;
 }
 
 @keyframes sponsor-scroll {
