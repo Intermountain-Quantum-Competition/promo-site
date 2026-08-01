@@ -10,7 +10,7 @@
 			<RouterLink to="/">
 				<div
 					:class="[
-						'font-mono font-bold text-sm tracking-wider cursor-pointer',
+						'font-mono font-bold text-sm tracking-wider cursor-pointer hover:text-gold',
 						{ 'text-gold': routeActive(['/', '/home']) },
 					]"
 				>
@@ -21,7 +21,7 @@
 			<RouterLink to="/sponsors">
 				<div
 					:class="[
-						'font-mono font-bold text-sm tracking-wider cursor-pointer',
+						'font-mono font-bold text-sm tracking-wider cursor-pointer hover:text-gold',
 						{ 'text-gold': routeActive(['/sponsors']) },
 					]"
 				>
@@ -32,7 +32,7 @@
 			<RouterLink to="/students">
 				<div
 					:class="[
-						'font-mono font-bold text-sm tracking-wider cursor-pointer',
+						'font-mono font-bold text-sm tracking-wider cursor-pointer hover:text-gold',
 						{ 'text-gold': routeActive(['/students']) },
 					]"
 				>
@@ -43,7 +43,7 @@
 			<RouterLink to="/about">
 				<div
 					:class="[
-						'font-mono font-bold text-sm tracking-wider cursor-pointer',
+						'font-mono font-bold text-sm tracking-wider cursor-pointer hover:text-gold',
 						{ 'text-gold': routeActive(['/about']) },
 					]"
 				>

@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-navy-2 border-t-2 border-b-2 border-navy-4 py-20 flex justify-center">
-		<div class="flex flex-col items-center w-2/3">
+		<div class="flex flex-col items-center w-2/3 max-w-300">
 			<p class="tracking-widest w-full mb-2 text-sm font-bold">
 				<span class="text-gold mr-2">01</span> COUNTDOWN
 			</p>
