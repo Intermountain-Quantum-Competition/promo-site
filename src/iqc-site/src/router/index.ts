@@ -9,11 +9,11 @@ export const router = createRouter({
 			name: 'home',
 			component: LandingPage,
 		},
-		// {
-		// 	path: '/sponsors',
-		// 	name: 'sponsors',
-		// 	component: () => import('@/views/SponsorsPage.vue')
-		// },
+		{
+			path: '/sponsors',
+			name: 'sponsors',
+			component: () => import('@/views/SponsorsPage.vue'),
+		},
 		{
 			path: '/students',
 			name: 'students',
