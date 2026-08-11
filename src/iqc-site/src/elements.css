@@ -17,6 +17,7 @@ nobody had to opt in to. Font tokens earn that. Margins and colours generally do
 */
 
 @import 'tailwindcss';
+@reference './theme.css';
 
 @layer base {
 	body {
