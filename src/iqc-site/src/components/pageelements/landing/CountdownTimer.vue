@@ -54,7 +54,7 @@ export default defineComponent({
 	props: {},
 	data() {
 		return {
-			eventTime: new Date('2026-12-04T00:00:00-06:00'),
+			eventTime: new Date('2026-11-06T00:00:00-06:00'),
 			intervalRef: -1,
 			BTN_VARIANT,
 			timeValues: {
