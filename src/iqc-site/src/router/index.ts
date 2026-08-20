@@ -9,21 +9,21 @@ export const router = createRouter({
 			name: 'home',
 			component: LandingPage,
 		},
-		// {
-		// 	path: '/sponsors',
-		// 	name: 'sponsors',
-		// 	component: () => import('@/views/SponsorsPage.vue')
-		// },
+		{
+			path: '/sponsors',
+			name: 'sponsors',
+			component: () => import('@/views/ComingSoonView.vue'),
+		},
 		{
 			path: '/students',
 			name: 'students',
 			component: () => import('@/views/StudentsPage.vue'),
 		},
-		// {
-		// 	path: '/about',
-		// 	name: 'about',
-		// 	component: () => import('@/views/AboutPage.vue')
-		// },
+		{
+			path: '/about',
+			name: 'about',
+			component: () => import('@/views/ComingSoonView.vue'),
+		},
 		{
 			// Lazy-loaded so it stays out of the initial bundle. Prefer this form for
 			// any route that isn't the landing page.
