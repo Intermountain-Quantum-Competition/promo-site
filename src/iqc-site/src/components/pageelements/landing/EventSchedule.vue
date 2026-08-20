@@ -44,7 +44,7 @@ export default defineComponent({
 	props: {},
 	data() {
 		return {
-			startDate: { year: 2026, month: 12, day: 4 },
+			startDate: { year: 2026, month: 11, day: 6 },
 			schedule: [
 				[
 					// Day 1
