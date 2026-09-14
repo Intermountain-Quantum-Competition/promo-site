@@ -13,16 +13,29 @@
 						<br />
 						Show 'em what you got.
 					</p>
+					<nav class="flex flex-wrap gap-x-6 gap-y-2 mt-6" aria-label="On this page">
+						<RouterLink
+							v-for="link in jumpLinks"
+							:key="link.hash"
+							:to="{ hash: link.hash }"
+							class="font-mono font-bold text-xs lg:text-sm tracking-wider hover:text-gold"
+						>
+							<span class="text-gold">↓</span> {{ link.label }}
+						</RouterLink>
+					</nav>
 				</div>
 			</div>
 		</HeroSection>
 
 		<SponsorsDisplay />
+		<SponsorsForStudents />
+		<BecomeSponsor />
+		<SponsorResources />
 
 		<div class="flex justify-center mb-4 mt-8">
 			<div class="w-11/12 lg:w-2/3 max-w-300">
 				<p class="tracking-widest w-full mb-2 text-xs lg:text-sm font-bold">
-					<span class="text-gold mr-2">04</span> END
+					<span class="text-gold mr-2">05</span> END
 				</p>
 			</div>
 		</div>
@@ -32,7 +45,10 @@
 </template>
 
 <script lang="ts">
+import BecomeSponsor from '@/components/pageelements/sponsors/BecomeSponsor.vue';
+import SponsorResources from '@/components/pageelements/sponsors/SponsorResources.vue';
 import SponsorsDisplay from '@/components/pageelements/sponsors/SponsorsDisplay.vue';
+import SponsorsForStudents from '@/components/pageelements/sponsors/SponsorsForStudents.vue';
 import HeroSection from '@/components/shared/HeroSection.vue';
 import PageFooter from '@/components/shared/PageFooter.vue';
 import PageHeader from '@/components/shared/PageHeader.vue';
@@ -44,11 +60,22 @@ export default defineComponent({
 		PageHeader,
 		PageFooter,
 		SponsorsDisplay,
+		SponsorsForStudents,
+		BecomeSponsor,
+		SponsorResources,
 	},
 	mixins: [],
 	props: {},
 	data() {
-		return {};
+		return {
+			/* One entry per audience, so each can be linked to directly: /sponsors#... */
+			jumpLinks: [
+				{ hash: '#our-sponsors', label: 'OUR SPONSORS' },
+				{ hash: '#for-students', label: 'FOR STUDENTS' },
+				{ hash: '#become-a-sponsor', label: 'BECOME A SPONSOR' },
+				{ hash: '#sponsor-resources', label: 'SPONSOR RESOURCES' },
+			],
+		};
 	},
 	computed: {},
 	methods: {},

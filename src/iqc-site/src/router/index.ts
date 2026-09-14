@@ -12,7 +12,7 @@ export const router = createRouter({
 		{
 			path: '/sponsors',
 			name: 'sponsors',
-			component: () => import('@/views/ComingSoonView.vue'),
+			component: () => import('@/views/SponsorsPage.vue'),
 		},
 		{
 			path: '/students',
@@ -32,7 +32,10 @@ export const router = createRouter({
 			component: () => import('../views/NotFoundView.vue'),
 		},
 	],
-	scrollBehavior(_to, _from, savedPosition) {
-		return savedPosition ?? { top: 0 };
+	scrollBehavior(to, _from, savedPosition) {
+		if (savedPosition) return savedPosition;
+		// Lets pages link to their own sections, e.g. /sponsors#become-a-sponsor.
+		if (to.hash) return { el: to.hash, behavior: 'smooth' };
+		return { top: 0 };
 	},
 });

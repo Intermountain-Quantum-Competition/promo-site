@@ -45,6 +45,7 @@ import SponsorScroller, {
 import nucleusinst from '@/assets/branding/Sponsors/nucleusinstitute.svg';
 import nasdaq from '@/assets/branding/Sponsors/nasdaq.svg';
 import ibm from '@/assets/branding/Sponsors/ibm.svg';
+import quantumrings from '@/assets/branding/Sponsors/quantumrings.svg';
 
 /*
 `scale` is an optical trim, tuned by eye against the rendered strip — the scroller caps
@@ -56,6 +57,7 @@ const SPONSORS: Sponsor[] = [
 	{ name: 'The Nucleus Institute', logo: nucleusinst, scale: 0.8 },
 	{ name: 'Nasdaq', logo: nasdaq },
 	{ name: 'IBM', logo: ibm, scale: 0.9 },
+	{ name: 'Quantum Rings', logo: quantumrings, scale: 1.5 },
 ];
 
 export default defineComponent({
