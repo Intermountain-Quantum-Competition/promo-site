@@ -19,10 +19,12 @@
 
 		<RegisterForm />
 
+		<StudentFlyers />
+
 		<div class="flex justify-center mb-4">
 			<div class="w-11/12 lg:w-2/3 max-w-300">
 				<p class="tracking-widest w-full mb-2 text-xs lg:text-sm font-bold">
-					<span class="text-gold mr-2">02</span> END
+					<span class="text-gold mr-2">03</span> END
 				</p>
 			</div>
 		</div>
@@ -33,6 +35,7 @@
 
 <script lang="ts">
 import RegisterForm from '@/components/pageelements/students/RegisterForm.vue';
+import StudentFlyers from '@/components/pageelements/students/StudentFlyers.vue';
 import HeroSection from '@/components/shared/HeroSection.vue';
 import PageFooter from '@/components/shared/PageFooter.vue';
 import PageHeader from '@/components/shared/PageHeader.vue';
@@ -44,6 +47,7 @@ export default defineComponent({
 		PageHeader,
 		PageFooter,
 		RegisterForm,
+		StudentFlyers,
 	},
 	mixins: [],
 	props: {},
