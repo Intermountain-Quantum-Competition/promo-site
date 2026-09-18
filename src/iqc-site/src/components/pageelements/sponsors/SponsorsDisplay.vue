@@ -69,7 +69,7 @@ const SPONSORS = [
 		logo: quantumRingsLogo,
 		logoClass: 'h-10',
 		tagline: 'QUANTUM SIMULATION',
-		blurb: 'Quantum Rings makes large-scale quantum simulation possible on hardware you already own, running hundreds of qubits and millions of operations with high fidelity. Its SDK is free for non-commercial use, and it also offers access to real quantum processors and a free Quantum 101 course.',
+		blurb: 'Quantum Rings builds the execution layer for quantum computing. Through their large-scale quantum simulator, run simulations with hundreds of qubits and millions of operations on hardware you already own. With their Open Quantum platform, execute workloads in minutes on real quantum computers across several vendors and modalities.',
 		url: 'https://www.quantumrings.com',
 	},
 ];
