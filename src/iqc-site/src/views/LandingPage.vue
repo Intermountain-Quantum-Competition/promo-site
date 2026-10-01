@@ -46,6 +46,8 @@ import nucleusinst from '@/assets/branding/Sponsors/nucleusinstitute.svg';
 import nasdaq from '@/assets/branding/Sponsors/nasdaq.svg';
 import ibm from '@/assets/branding/Sponsors/ibm.svg';
 import quantumrings from '@/assets/branding/Sponsors/quantumrings.svg';
+import justbuild from '@/assets/branding/Sponsors/justbuild.svg';
+import aqora from '@/assets/branding/Sponsors/aqora.svg';
 
 /*
 `scale` is an optical trim, tuned by eye against the rendered strip — the scroller caps
@@ -58,6 +60,8 @@ const SPONSORS: Sponsor[] = [
 	{ name: 'Nasdaq', logo: nasdaq },
 	{ name: 'IBM', logo: ibm, scale: 0.9 },
 	{ name: 'Quantum Rings', logo: quantumrings, scale: 1.5 },
+	{ name: 'JustBuild', logo: justbuild, scale: 1.1 },
+	{ name: 'Aqora', logo: aqora, scale: 0.8 },
 ];
 
 export default defineComponent({
