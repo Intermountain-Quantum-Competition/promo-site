@@ -34,6 +34,8 @@ import nasdaqLogo from '@/assets/branding/Sponsors/nasdaq.svg';
 import nucleusLogo from '@/assets/branding/Sponsors/nucleusinstitute.svg';
 import quantumRingsLogo from '@/assets/branding/Sponsors/quantumrings.svg';
 import qiskitEventSticker from '@/assets/material/IBM Qiskit Fall Fest 2026.svg';
+import justbuildLogo from '@/assets/branding/Sponsors/justbuild.svg';
+import aqoraLogo from '@/assets/branding/Sponsors/aqora.svg';
 
 /*
 Blurbs are condensed from each organization's own quantum pages (September 2026). When a
@@ -71,6 +73,22 @@ const SPONSORS = [
 		tagline: 'QUANTUM SIMULATION',
 		blurb: 'Quantum Rings builds the execution layer for quantum computing. Through their large-scale quantum simulator, run simulations with hundreds of qubits and millions of operations on hardware you already own. With their Open Quantum platform, execute workloads in minutes on real quantum computers across several vendors and modalities.',
 		url: 'https://www.quantumrings.com',
+	},
+	{
+		name: 'JustBuild',
+		logo: justbuildLogo,
+		logoClass: 'h-8',
+		tagline: "UTAH'S AI-NATIVE BUILDER COMMUNITY",
+		blurb: "JustBuild is Utah's AI-native builder community. We bring together founders, engineers, designers, PMs, and curious builders to learn fast, build real things, and grow the local startup ecosystem. Through hackathons, coworking sessions, and hands-on events, JustBuild helps people meet collaborators, sharpen their skills, and ship real projects. The community is led by Max Forsey and Jacob Wright.",
+		url: 'https://justbuild.ing/',
+	},
+	{
+		name: 'Aqora',
+		logo: aqoraLogo,
+		logoClass: 'h-8',
+		tagline: 'QUANTUM COMPETITIONS & COMMUNITY',
+		blurb: 'Aqora is a platform where companies and quantum experts connect to solve real use cases together. It hosts online quantum competitions and hackathons, backed by a job board and a global community, so you can put your skills to work on real-world problems and get noticed by top quantum teams.',
+		url: 'https://aqora.io/',
 	},
 ];
 
