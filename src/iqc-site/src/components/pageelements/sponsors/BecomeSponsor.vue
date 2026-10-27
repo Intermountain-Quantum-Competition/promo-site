@@ -1,19 +1,15 @@
 <template>
 	<section id="become-a-sponsor" class="w-full flex justify-center py-10 scroll-mt-6">
 		<div class="w-11/12 lg:w-2/3 max-w-300">
-			<div class="mb-8">
-				<p class="tracking-widest lg:mb-2 text-xs lg:text-sm font-bold">
-					<span class="text-gold mr-2">03</span> BECOME A SPONSOR
-				</p>
-				<h2 class="text-3xl lg:text-5xl">Interested in sponsoring?</h2>
-				<p class="mt-2 lg:mt-4 text-sm lg:text-md">
-					Put your company in front of the Intermountain West's top quantum talent,
-					November 6–7, 2026.
-				</p>
-			</div>
+			<h2 class="font-body tracking-widest mb-6 text-xs lg:text-sm font-bold">
+				<span class="text-gold mr-2">03</span> BECOME A SPONSOR
+			</h2>
+			<p class="text-sm lg:text-md mb-8">
+				Sponsoring puts your company in front of the Intermountain West's quantum students
+				on November 6–7, 2026.
+			</p>
 
-			<!-- What we really want -->
-			<h3 class="text-2xl">What we really want.</h3>
+			<h3 class="text-2xl">How to sponsor</h3>
 			<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
 				<div class="card md:col-span-1 flex flex-col">
 					<p class="font-mono text-xs tracking-wider text-gold">MENTORSHIP</p>
@@ -37,22 +33,23 @@
 				</div>
 			</div>
 
-			<!-- What would be cool -->
-			<h3 class="text-2xl mt-12">What would be cool.</h3>
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-				<div v-for="item in extras" :key="item.title" class="card">
-					<p class="font-mono text-xs tracking-wider text-gold">{{ item.title }}</p>
-					<p class="mt-2 text-sm leading-relaxed">{{ item.desc }}</p>
-				</div>
-			</div>
-
-			<!-- What you get / where it goes -->
-			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
 				<div>
-					<h3 class="text-2xl">What you get.</h3>
-					<ul class="mt-4 flex flex-col gap-3">
+					<h3 class="text-2xl">Other ways to help</h3>
+					<ul class="mt-4">
+						<li v-for="item in extras" :key="item.title" class="row">
+							<p class="font-mono text-xs tracking-wider text-gold">
+								{{ item.title }}
+							</p>
+							<p class="text-sm leading-relaxed">{{ item.desc }}</p>
+						</li>
+					</ul>
+				</div>
+				<div>
+					<h3 class="text-2xl">What sponsors get</h3>
+					<ul class="mt-4">
 						<li v-for="item in benefits" :key="item.title" class="row">
-							<p class="font-mono text-xs tracking-wider text-gold min-w-30">
+							<p class="font-mono text-xs tracking-wider text-gold">
 								{{ item.title }}
 							</p>
 							<p class="text-sm leading-relaxed">{{ item.desc }}</p>
@@ -60,10 +57,10 @@
 					</ul>
 				</div>
 				<div>
-					<h3 class="text-2xl">Where your contribution goes.</h3>
-					<ul class="mt-4 flex flex-col gap-3">
+					<h3 class="text-2xl">Where the money goes</h3>
+					<ul class="mt-4">
 						<li v-for="item in uses" :key="item.title" class="row">
-							<p class="font-mono text-xs tracking-wider text-gold min-w-30">
+							<p class="font-mono text-xs tracking-wider text-gold">
 								{{ item.title }}
 							</p>
 							<p class="text-sm leading-relaxed">{{ item.desc }}</p>
@@ -72,13 +69,9 @@
 				</div>
 			</div>
 
-			<!-- CTA -->
-			<div
-				class="mt-12 border-2 border-navy-4 bg-navy-2 rounded-lg p-6 lg:p-10 flex flex-col lg:flex-row gap-6 lg:items-center justify-between"
-			>
+			<div class="mt-12 flex flex-col lg:flex-row gap-6 lg:items-center justify-between">
 				<div class="lg:max-w-1/2">
-					<p class="text-xl font-subheader">Let's talk.</p>
-					<p class="mt-2 text-sm leading-relaxed text-darkwhite">
+					<p class="text-sm leading-relaxed text-darkwhite">
 						*If funding is the reason your company can't attend, we'd still like to work
 						with you. We'll figure out a cost and support level that fits your
 						organization.
@@ -190,6 +183,6 @@ export default defineComponent({
 }
 
 .row {
-	@apply flex flex-col sm:flex-row gap-1 sm:gap-4 bg-navy-3 border border-navy-4 rounded-lg p-4;
+	@apply flex flex-col gap-1 py-3 border-b border-navy-4 first:border-t;
 }
 </style>
