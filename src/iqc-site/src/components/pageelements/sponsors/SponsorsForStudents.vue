@@ -1,41 +1,38 @@
 <template>
 	<section id="for-students" class="w-full flex justify-center py-10 scroll-mt-6">
 		<div class="w-11/12 lg:w-2/3 max-w-300">
-			<div class="mb-8">
-				<p class="tracking-widest lg:mb-2 text-xs lg:text-sm font-bold">
-					<span class="text-gold mr-2">02</span> FOR STUDENTS
-				</p>
-				<h2 class="text-3xl lg:text-5xl">Real problems. Real people.</h2>
-				<p class="mt-2 lg:mt-4 text-sm lg:text-md">
-					Sponsors aren't just logos on a shirt. Here's what they bring to your weekend.
-				</p>
-			</div>
+			<h2 class="font-body tracking-widest mb-6 text-xs lg:text-sm font-bold">
+				<span class="text-gold mr-2">02</span> FOR STUDENTS
+			</h2>
 
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-				<div v-for="item in expectations" :key="item.title" class="card">
-					<h3 class="text-xl">{{ item.title }}</h3>
-					<p class="mt-2 text-sm leading-relaxed">{{ item.desc }}</p>
-				</div>
-			</div>
+			<ul>
+				<li v-for="item in expectations" :key="item.title" class="row">
+					<p class="font-mono text-xs tracking-wider text-gold uppercase md:min-w-56">
+						{{ item.title }}
+					</p>
+					<p class="text-sm leading-relaxed">{{ item.desc }}</p>
+				</li>
+			</ul>
 
-			<h3 class="text-2xl mt-12">Get a head start.</h3>
-			<p class="mt-2 text-sm">
-				Our sponsors offer free tools and courses. Poke around before the competition.
-			</p>
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-				<a
-					v-for="res in resources"
-					:key="res.title"
-					:href="res.url"
-					target="_blank"
-					rel="noopener"
-					class="card hover:border-gold transition-colors"
-				>
-					<p class="font-mono text-xs tracking-wider text-darkwhite">{{ res.from }}</p>
-					<h4 class="text-lg mt-1">{{ res.title }} ↗</h4>
-					<p class="mt-2 text-sm leading-relaxed">{{ res.desc }}</p>
-				</a>
-			</div>
+			<h3 class="text-2xl mt-12">Free tools from our sponsors</h3>
+			<ul class="mt-4">
+				<li v-for="res in resources" :key="res.title" class="row">
+					<p class="font-mono text-xs tracking-wider text-darkwhite md:min-w-56">
+						{{ res.from }}
+					</p>
+					<p class="text-sm leading-relaxed">
+						<a
+							:href="res.url"
+							target="_blank"
+							rel="noopener"
+							class="font-subheader text-base text-gold hover:underline"
+							>{{ res.title }} ↗</a
+						>
+						<br />
+						{{ res.desc }}
+					</p>
+				</li>
+			</ul>
 
 			<div class="mt-8">
 				<RouterLink to="/students">
@@ -110,7 +107,7 @@ export default defineComponent({
 <style scoped>
 @reference "@/theme.css";
 
-.card {
-	@apply block bg-navy-3 border border-navy-4 rounded-lg p-5;
+.row {
+	@apply flex flex-col md:flex-row gap-1 md:gap-6 py-4 border-b border-navy-4 first:border-t;
 }
 </style>

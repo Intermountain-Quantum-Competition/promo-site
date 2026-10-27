@@ -1,24 +1,17 @@
 <template>
 	<section id="our-sponsors" class="w-full flex justify-center py-10 scroll-mt-6">
 		<div class="w-11/12 lg:w-2/3 max-w-300">
-			<div class="mb-8">
-				<p class="tracking-widest lg:mb-2 text-xs lg:text-sm font-bold">
-					<span class="text-gold mr-2">01</span> OUR SPONSORS
-				</p>
-				<h2 class="text-3xl lg:text-5xl">The people making it happen.</h2>
-				<p class="mt-2 lg:mt-4 text-sm lg:text-md">
-					These organizations are building the future of quantum, and they're sending real
-					people to meet you.
-				</p>
-			</div>
+			<h2 class="font-body tracking-widest mb-6 text-xs lg:text-sm font-bold">
+				<span class="text-gold mr-2">01</span> OUR SPONSORS
+			</h2>
 
-			<div class="flex flex-col gap-6">
+			<div class="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-10">
 				<SponsorTile v-for="sponsor in sponsors" :key="sponsor.name" v-bind="sponsor">
 					<img
 						v-if="sponsor.name === 'IBM'"
 						:src="qiskitEventSticker"
 						alt="IBM Qiskit Fall Fest 2026"
-						class="max-h-40"
+						class="max-h-28"
 					/>
 				</SponsorTile>
 			</div>
@@ -36,10 +29,16 @@ import quantumRingsLogo from '@/assets/branding/Sponsors/quantumrings.svg';
 import qiskitEventSticker from '@/assets/material/IBM Qiskit Fall Fest 2026.svg';
 import justbuildLogo from '@/assets/branding/Sponsors/justbuild.svg';
 import aqoraLogo from '@/assets/branding/Sponsors/aqora.svg';
+import ionqLogo from '@/assets/branding/Sponsors/ionq.webp';
+import qbraidLogo from '@/assets/branding/Sponsors/qbraid.webp';
+import vasionLogo from '@/assets/branding/Sponsors/vasion.svg';
+import sandiaLogo from '@/assets/branding/Sponsors/sandia.svg';
+import byuPhysicsLogo from '@/assets/branding/Sponsors/byuphysics.webp';
 
 /*
-Blurbs are condensed from each organization's own quantum pages (September 2026). When a
-sponsor sends approved copy, replace theirs outright rather than merging it with this.
+Blurbs are condensed from each organization's own quantum pages (September 2026; IonQ
+onward, October 2026). When a sponsor sends approved copy, replace theirs outright rather
+than merging it with this.
 */
 const SPONSORS = [
 	{
@@ -89,6 +88,46 @@ const SPONSORS = [
 		tagline: 'QUANTUM COMPETITIONS & COMMUNITY',
 		blurb: 'Aqora is a platform where companies and quantum experts connect to solve real use cases together. It hosts online quantum competitions and hackathons, backed by a job board and a global community, so you can put your skills to work on real-world problems and get noticed by top quantum teams.',
 		url: 'https://aqora.io/',
+	},
+	{
+		name: 'IonQ',
+		logo: ionqLogo,
+		logoClass: 'h-9',
+		tagline: 'TRAPPED-ION QUANTUM COMPUTING',
+		blurb: 'IonQ builds quantum computers out of trapped ions, an approach that grew from more than 30 years of academic research by its founders, Chris Monroe and Jungsang Kim. Its systems, including IonQ Forte and Tempo, are available over the cloud, and its work now extends into quantum networking, security, and sensing.',
+		url: 'https://ionq.com',
+	},
+	{
+		name: 'qBraid',
+		logo: qbraidLogo,
+		logoClass: 'h-9',
+		tagline: 'THE QUANTUM CLOUD',
+		blurb: 'qBraid is a hardware-agnostic quantum computing platform used by more than 27,000 developers. It puts machines from IonQ, QuEra, IBM, Rigetti, and others behind one cloud interface, alongside a browser-based IDE for writing quantum programs and qBook, an interactive quantum curriculum.',
+		url: 'https://qbraid.com',
+	},
+	{
+		name: 'Vasion',
+		logo: vasionLogo,
+		logoClass: 'h-5',
+		tagline: 'ENTERPRISE PRINT & AUTOMATION',
+		blurb: 'Vasion, headquartered in St. George, Utah, helps companies simplify their print infrastructure, automate business processes, and integrate their technology securely. Formerly PrinterLogic, it rebranded in 2021 around a broader mission: making digital transformation attainable for everyone.',
+		url: 'https://vasion.com',
+	},
+	{
+		name: 'Sandia National Laboratories',
+		logo: sandiaLogo,
+		logoClass: 'h-10',
+		tagline: 'QUANTUM INFORMATION SCIENCE',
+		blurb: "Sandia is a multimission national laboratory for the U.S. Department of Energy's National Nuclear Security Administration. Its Quantum Information Program spans computing, sensing, and communications: fabricating trapped-ion and semiconductor qubits, running the QSCOUT open trapped-ion testbed, and building cold-atom sensors and on-chip quantum key distribution hardware.",
+		url: 'https://www.sandia.gov/quantum/',
+	},
+	{
+		name: 'BYU Physics & Astronomy',
+		logo: byuPhysicsLogo,
+		logoClass: 'h-5',
+		tagline: 'QUANTUM RESEARCH & EDUCATION',
+		blurb: "BYU's Department of Physics and Astronomy has faculty working on quantum dynamics, quantum information, and quantum optics, and a quantum research group that meets weekly and is open to visitors. Every undergraduate physics major completes a research thesis or capstone, so students work in labs alongside faculty early on.",
+		url: 'https://physics.byu.edu',
 	},
 ];
 

@@ -102,7 +102,7 @@ export default defineComponent({
 		 */
 		speed: {
 			type: Number,
-			default: 24,
+			default: 50,
 		},
 		/** Space between logos, and across the seam between copies. Any CSS length. */
 		gap: {

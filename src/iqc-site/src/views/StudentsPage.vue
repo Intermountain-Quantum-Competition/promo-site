@@ -7,11 +7,9 @@
 					<p class="tracking-widest lg:mb-2 text-xs lg:text-sm font-bold">
 						<span class="text-gold mr-2">00</span> START
 					</p>
-					<h1 class="text-3xl lg:text-5xl">Be part of something great.</h1>
+					<h1 class="text-3xl lg:text-5xl">Register</h1>
 					<p class="mt-2 lg:mt-4 text-sm lg:text-md">
-						Register to get ready to join the Intermountain West's biggest quantum
-						computing event ever. <br />
-						You just can't miss this.
+						Sign up for the Intermountain Quantum Competition, November 6–7, 2026.
 					</p>
 				</div>
 			</div>

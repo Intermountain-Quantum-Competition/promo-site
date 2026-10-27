@@ -22,7 +22,7 @@ export const router = createRouter({
 		{
 			path: '/about',
 			name: 'about',
-			component: () => import('@/views/ComingSoonView.vue'),
+			component: () => import('@/views/AboutPage.vue'),
 		},
 		{
 			// Lazy-loaded so it stays out of the initial bundle. Prefer this form for
