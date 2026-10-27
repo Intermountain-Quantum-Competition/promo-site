@@ -48,6 +48,11 @@ import ibm from '@/assets/branding/Sponsors/ibm.svg';
 import quantumrings from '@/assets/branding/Sponsors/quantumrings.svg';
 import justbuild from '@/assets/branding/Sponsors/justbuild.svg';
 import aqora from '@/assets/branding/Sponsors/aqora.svg';
+import ionq from '@/assets/branding/Sponsors/ionq.webp';
+import qbraid from '@/assets/branding/Sponsors/qbraid.webp';
+import vasion from '@/assets/branding/Sponsors/vasion.svg';
+import sandia from '@/assets/branding/Sponsors/sandia.svg';
+import byuphysics from '@/assets/branding/Sponsors/byuphysics.webp';
 
 /*
 `scale` is an optical trim, tuned by eye against the rendered strip — the scroller caps
@@ -62,6 +67,11 @@ const SPONSORS: Sponsor[] = [
 	{ name: 'Quantum Rings', logo: quantumrings, scale: 1.5 },
 	{ name: 'JustBuild', logo: justbuild, scale: 1.1 },
 	{ name: 'Aqora', logo: aqora, scale: 0.8 },
+	{ name: 'IonQ', logo: ionq },
+	{ name: 'qBraid', logo: qbraid },
+	{ name: 'Vasion', logo: vasion },
+	{ name: 'Sandia National Laboratories', logo: sandia, scale: 1.2 },
+	{ name: 'BYU Physics & Astronomy', logo: byuphysics },
 ];
 
 export default defineComponent({
