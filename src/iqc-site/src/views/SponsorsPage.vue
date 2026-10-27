@@ -7,11 +7,10 @@
 					<p class="tracking-widest lg:mb-2 text-xs lg:text-sm font-bold">
 						<span class="text-gold mr-2">00</span> START
 					</p>
-					<h1 class="text-3xl lg:text-5xl">Backed by industry giants.</h1>
+					<h1 class="text-3xl lg:text-5xl">Sponsors</h1>
 					<p class="mt-2 lg:mt-4 text-sm lg:text-md">
-						The perfect opportunity to connect with industry leaders and big players.
-						<br />
-						Show 'em what you got.
+						The organizations bringing problems, mentors, and prizes to IQC, and how
+						your company can join them.
 					</p>
 					<nav class="flex flex-wrap gap-x-6 gap-y-2 mt-6" aria-label="On this page">
 						<RouterLink

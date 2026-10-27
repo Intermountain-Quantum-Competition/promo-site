@@ -1,24 +1,18 @@
 <template>
 	<section id="sponsor-resources" class="w-full flex justify-center py-10 scroll-mt-6">
 		<div class="w-11/12 lg:w-2/3 max-w-300">
-			<div class="mb-8">
-				<p class="tracking-widest lg:mb-2 text-xs lg:text-sm font-bold">
-					<span class="text-gold mr-2">04</span> SPONSOR RESOURCES
-				</p>
-				<h2 class="text-3xl lg:text-5xl">Already on board?</h2>
-				<p class="mt-2 lg:mt-4 text-sm lg:text-md">
-					Thank you. Here's what to have ready, and where you're needed on event days.
-				</p>
-			</div>
+			<h2 class="font-body tracking-widest mb-6 text-xs lg:text-sm font-bold">
+				<span class="text-gold mr-2">04</span> SPONSOR RESOURCES
+			</h2>
 
 			<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 				<div>
-					<h3 class="text-2xl">Before the event.</h3>
-					<ul class="mt-4 flex flex-col gap-3">
+					<h3 class="text-2xl">Before the event</h3>
+					<ul class="mt-4">
 						<li
 							v-for="(item, idx) in checklist"
 							:key="item.title"
-							class="flex gap-4 bg-navy-3 border border-navy-4 rounded-lg p-4"
+							class="flex gap-4 py-3 border-b border-navy-4 first:border-t"
 						>
 							<span class="font-mono text-gold">{{
 								String(idx + 1).padStart(2, '0')
@@ -32,7 +26,7 @@
 				</div>
 
 				<div>
-					<h3 class="text-2xl">Where you're needed.</h3>
+					<h3 class="text-2xl">When we need you</h3>
 					<p class="mt-1 text-sm text-darkwhite">All times MST.</p>
 					<template v-for="day in sponsorDays" :key="day.label">
 						<p class="font-mono text-xs tracking-wider text-gold mt-4">
@@ -54,13 +48,10 @@
 				</div>
 			</div>
 
-			<div
-				class="mt-12 border-2 border-navy-4 bg-navy-2 rounded-lg p-6 lg:p-10 flex flex-col lg:flex-row gap-6 lg:items-center justify-between"
-			>
+			<div class="mt-12 flex flex-col lg:flex-row gap-6 lg:items-center justify-between">
 				<div>
-					<p class="text-xl font-subheader">Questions? Materials to send?</p>
-					<p class="mt-2 text-sm text-darkwhite">
-						Reach the organizing team at
+					<p class="text-sm text-darkwhite">
+						Send questions and materials to the organizing team at
 						<a :href="`mailto:${email}`" class="text-gold hover:underline">{{
 							email
 						}}</a

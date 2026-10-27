@@ -1,16 +1,16 @@
 <template>
 	<section id="flyers" class="w-full flex justify-center mb-10 scroll-mt-6">
 		<div class="w-11/12 lg:w-2/3 max-w-300">
-			<p class="tracking-widest mb-2 text-xs lg:text-sm font-bold">
+			<h2 class="font-body tracking-widest mb-6 text-xs lg:text-sm font-bold">
 				<span class="text-gold mr-2">02</span> FLYERS
-			</p>
-			<h2 class="text-3xl lg:text-5xl">Take it with you.</h2>
-			<p class="mt-2 lg:mt-4 text-sm lg:text-md">
-				Everything you need to know about IQC, ready to save or share with a friend.
-			</p>
+			</h2>
 
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-				<div v-for="flyer in flyers" :key="flyer.filename" class="card flex flex-col">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+				<div
+					v-for="flyer in flyers"
+					:key="flyer.filename"
+					class="flex flex-col pt-4 border-t border-navy-4"
+				>
 					<p class="font-mono text-xs tracking-wider text-gold">{{ flyer.label }}</p>
 					<p class="text-xl mt-2 font-subheader">{{ flyer.title }}</p>
 					<p class="mt-2 mb-6 text-sm leading-relaxed">{{ flyer.desc }}</p>
@@ -65,10 +65,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-@reference "@/theme.css";
-
-.card {
-	@apply bg-navy-3 border border-navy-4 rounded-lg p-5;
-}
-</style>
+<style scoped></style>

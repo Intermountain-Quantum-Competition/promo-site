@@ -1,7 +1,5 @@
 <template>
-	<article
-		class="w-full border-2 border-navy-4 bg-navy-2 rounded-lg p-5 lg:p-8 flex flex-col lg:flex-row gap-6"
-	>
+	<article class="w-full border-t border-navy-4 pt-6 flex flex-col sm:flex-row gap-6">
 		<div class="flex-1 flex flex-col">
 			<div class="h-10 flex items-center">
 				<img :src="logo" :alt="name" :class="logoClass" />
@@ -17,7 +15,7 @@
 				LEARN MORE ↗
 			</a>
 		</div>
-		<div v-if="$slots.default" class="flex justify-center items-center lg:w-48 shrink-0">
+		<div v-if="$slots.default" class="flex justify-center items-center sm:w-32 shrink-0">
 			<slot></slot>
 		</div>
 	</article>
