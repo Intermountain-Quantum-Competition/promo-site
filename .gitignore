@@ -31,3 +31,5 @@ Thumbs.db
 *.tfvars
 cdk.out/
 .pulumi/
+
+/tmp/*
