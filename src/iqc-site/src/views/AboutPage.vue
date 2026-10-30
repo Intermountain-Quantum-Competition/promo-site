@@ -63,6 +63,7 @@ import kaiSandberg from '@/assets/team/kai-sandberg.webp';
 import kariePowell from '@/assets/team/karie-powell.webp';
 import melanieMiles from '@/assets/team/melanie-miles.webp';
 import ryanCamacho from '@/assets/team/ryan-camacho.webp';
+import sangjoonRyu from '@/assets/team/sangjoon-ryu.webp';
 import willOtt from '@/assets/team/will-ott.webp';
 
 /*
@@ -90,7 +91,7 @@ const STUDENT_TEAM: TeamGroup[] = [
 		name: 'Infrastructure',
 		people: [
 			{ name: 'Caleb Dougal', title: 'Web Design and Infrastructure', photo: calebDougal },
-			{ name: 'Sangjoon Ryu', title: 'Mid-Event Communications' },
+			{ name: 'Sangjoon Ryu', title: 'Mid-Event Communications', photo: sangjoonRyu },
 		],
 	},
 	{
