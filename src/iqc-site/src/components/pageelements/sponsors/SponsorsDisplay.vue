@@ -34,10 +34,12 @@ import qbraidLogo from '@/assets/branding/Sponsors/qbraid.webp';
 import vasionLogo from '@/assets/branding/Sponsors/vasion.svg';
 import sandiaLogo from '@/assets/branding/Sponsors/sandia.svg';
 import byuPhysicsLogo from '@/assets/branding/Sponsors/byuphysics.webp';
+import goldmanSachsLogo from '@/assets/branding/Sponsors/goldmansachs.svg';
 
 /*
 Blurbs are condensed from each organization's own quantum pages (September 2026; IonQ
-onward, October 2026). When a sponsor sends approved copy, replace theirs outright rather
+onward, October 2026). Goldman Sachs's is written from its published research, not its own
+copy — swap it out first when approved text arrives. When a sponsor sends approved copy, replace theirs outright rather
 than merging it with this.
 */
 const SPONSORS = [
@@ -128,6 +130,14 @@ const SPONSORS = [
 		tagline: 'QUANTUM RESEARCH & EDUCATION',
 		blurb: "BYU's Department of Physics and Astronomy has faculty working on quantum dynamics, quantum information, and quantum optics, and a quantum research group that meets weekly and is open to visitors. Every undergraduate physics major completes a research thesis or capstone, so students work in labs alongside faculty early on.",
 		url: 'https://physics.byu.edu',
+	},
+	{
+		name: 'Goldman Sachs',
+		logo: goldmanSachsLogo,
+		logoClass: 'h-10',
+		tagline: 'QUANTUM ALGORITHMS FOR FINANCE',
+		blurb: 'Goldman Sachs is a global investment bank whose research team has been studying quantum computing for financial applications since 2018. Working with partners such as IBM, QC Ware, and AWS, it has published research on quantum algorithms for pricing derivatives and analyzing risk, including estimates of the hardware needed for quantum advantage in finance.',
+		url: 'https://www.goldmansachs.com',
 	},
 ];
 

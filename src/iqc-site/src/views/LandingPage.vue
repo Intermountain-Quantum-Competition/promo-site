@@ -53,6 +53,7 @@ import qbraid from '@/assets/branding/Sponsors/qbraid.webp';
 import vasion from '@/assets/branding/Sponsors/vasion.svg';
 import sandia from '@/assets/branding/Sponsors/sandia.svg';
 import byuphysics from '@/assets/branding/Sponsors/byuphysics.webp';
+import goldmansachs from '@/assets/branding/Sponsors/goldmansachs.svg';
 
 /*
 `scale` is an optical trim, tuned by eye against the rendered strip — the scroller caps
@@ -72,6 +73,7 @@ const SPONSORS: Sponsor[] = [
 	{ name: 'Vasion', logo: vasion },
 	{ name: 'Sandia National Laboratories', logo: sandia, scale: 1.2 },
 	{ name: 'BYU Physics & Astronomy', logo: byuphysics },
+	{ name: 'Goldman Sachs', logo: goldmansachs },
 ];
 
 export default defineComponent({
