@@ -6,6 +6,10 @@
 			</h2>
 			<p class="text-sm text-darkwhite">All times MST (GMT −07:00).</p>
 
+			<a :href="scheduleFlyerUrl" download="iqc-schedule-flyer.pdf" class="inline-block mt-4">
+				<ActionButton :variant="BTN_VARIANT.Secondary">Download schedule</ActionButton>
+			</a>
+
 			<template v-for="(day, dayIdx) in schedule" :key="dayIdx">
 				<div>
 					<h3 class="text-2xl mt-6">
@@ -32,29 +36,37 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import ActionButton, { BTN_VARIANT } from '@/components/common/ActionButton.vue';
+import scheduleFlyerUrl from '@/assets/material/iqc-schedule-flyer.pdf?url';
 
 export default defineComponent({
-	components: {},
+	components: { ActionButton },
 	mixins: [],
 	props: {},
 	data() {
 		return {
+			BTN_VARIANT,
+			scheduleFlyerUrl,
 			startDate: { year: 2026, month: 11, day: 6 },
 			schedule: [
 				[
 					// Day 1
 					{ time: '09:00', desc: 'Check-in' },
-					{ time: '09:30', desc: 'Welcome & keynote presentation' },
-					{ time: '10:30', desc: 'Company presentations (rounds 1 & 2)' },
-					{ time: '12:30', desc: 'Networking lunch' },
-					{ time: '13:40', desc: 'Q&A presentations & drafting' },
-					{ time: '15:15', desc: 'Competition begins' },
+					{ time: '10:00', desc: 'Opening remarks' },
+					{ time: '10:15', desc: 'Company presentations' },
+					{ time: '11:30', desc: 'Panel discussion' },
+					{ time: '12:30', desc: 'Networking lunch & team formation' },
+					{ time: '13:40', desc: 'Challenge track teasers & selection' },
+					{ time: '15:15', desc: 'Team challenge announcements' },
+					{ time: '23:30', desc: 'Move to Talmage Building (for overnight hacking)' },
 				],
 				[
 					// Day 2
-					{ time: '15:00', desc: 'Competition ends' },
-					{ time: '15:00', desc: 'Final team presentations' },
-					{ time: '17:00', desc: 'Closing remarks & awards' },
+					{ time: '09:00', desc: 'Breakfast' },
+					{ time: '12:30', desc: 'Lunch' },
+					{ time: '15:00', desc: 'Projects due' },
+					{ time: '15:00', desc: 'Team presentations & judging' },
+					{ time: '17:00', desc: 'Closing awards ceremony' },
 				],
 				// [
 				// 	// Day 3

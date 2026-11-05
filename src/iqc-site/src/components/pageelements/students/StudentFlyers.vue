@@ -29,7 +29,7 @@
 import { defineComponent } from 'vue';
 import ActionButton, { BTN_VARIANT } from '@/components/common/ActionButton.vue';
 import infoFlyerUrl from '@/assets/material/iqc-student-info-flyer.pdf?url';
-import scheduleFlyerUrl from '@/assets/material/iqc-schedule-flyer.png';
+import scheduleFlyerUrl from '@/assets/material/iqc-schedule-flyer.pdf?url';
 
 export default defineComponent({
 	components: {
@@ -54,8 +54,8 @@ export default defineComponent({
 					title: 'Event schedule',
 					desc: 'Times and rooms for November 6–7, from check-in through final presentations and awards.',
 					url: scheduleFlyerUrl,
-					filename: 'iqc-schedule-flyer.png',
-					format: 'PNG',
+					filename: 'iqc-schedule-flyer.pdf',
+					format: 'PDF',
 				},
 			],
 		};
