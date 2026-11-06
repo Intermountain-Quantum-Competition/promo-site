@@ -86,7 +86,7 @@ export default defineComponent({
 		},
 		getTimeUntil(date: Date) {
 			const now = new Date();
-			const timeUntil = new Date(date.valueOf() - now.valueOf());
+			const timeUntil = new Date(Math.max(0, date.valueOf() - now.valueOf()));
 
 			return this.getValueAsComponents(timeUntil);
 		},
